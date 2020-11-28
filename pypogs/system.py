@@ -857,7 +857,6 @@ class System:
     	Returns:
             list for method (set_alignment_from_observations(alignment_list))
                 """
-
         alignment_list = []
         parsed_list = []
         with open(star_align, newline='') as csvfile:
@@ -872,7 +871,6 @@ class System:
                                        apy_time_value,
                                        int(float(row[6])),
                                        int(float(row[7])))
-                        # print("All correct data save to csv")
                         alignment_list.append(parsed_list)
                     except:
                         parsed_list = (0, 0,
@@ -882,7 +880,7 @@ class System:
                         alignment_list.append(parsed_list)
                         # print("Time was ok, but rest of data wrong or empty)
                 except:
-                    print("Align_read_CSV: Empty raw or file header since now APY time")
+                    print("Align_read_CSV: Empty raw or file header since no APY time")
         return alignment_list
 
     def get_alt_az_of_target(self, times=None, time_step=.1):

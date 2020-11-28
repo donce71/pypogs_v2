@@ -741,8 +741,9 @@ class ControlLoopThread:
                              'COARSE_EXIST', 'COARSE_TRACK', 'COARSE_ALT_TRACK', 'COARSE_ALT_MEAN',
                              'COARSE_AZ_TRACK', 'COARSE_AZ_MEAN', 'COARSE_SD', 'COARSE_RMSE',
                              'FINE_EXIST', 'FINE_TRACK', 'FINE_ALT_TRACK', 'FINE_ALT_MEAN',
-                             'FINE_AZ_TRACK', 'FINE_AZ_MEAN', 'FINE_SD', 'FINE_RMSE', 'FB_ERR_ALT',
-                             'FB_ERR_AZ', 'FB_INT_ALT', 'FB_INT_AZ', 'FB_ANGVEL_ALT',
+                             'FINE_AZ_TRACK', 'FINE_AZ_MEAN', 'FINE_SD', 'FINE_RMSE', 'FB_ERR_ALT', 'FB_ERR_AZ',
+                             'P_term_ALT', 'P_term_AZ', 'I_term_ALT', 'I_term_AZ',
+                             'FB_INT_ALT', 'FB_INT_AZ', 'FB_ANGVEL_ALT',
                              'FB_ANGVEL_AZ', 'FB_SATURATED', 'FB_COMMAND_ALT', 'FB_COMMAND_AZ',
                              'FB_KP', 'FB_KI', 'FF_ALT', 'FF_AZ', 'REC_EXIST', 'REC_POWER',
                              'REC_SMOOTH'])
@@ -1046,6 +1047,8 @@ class ControlLoopThread:
                     err_integral += add_integral
                     self._log_debug('Integral calculated to: ' + str(err_integral))
                 # Calculate correction term
+                p_term = fb_kp * (err_alt_az)
+                i_term = fb_kp * (fb_ki * err_integral)
                 angvel_correction = fb_kp * (err_alt_az + fb_ki * err_integral)
                 (angvel_correction, saturated) = self._clip_feedback_rates(angvel_correction,
                                                                            speed_limit)
@@ -1150,6 +1153,7 @@ class ControlLoopThread:
                                      ft_exists, ft_has_track, ft_track_alt_az[0],
                                      ft_mean_alt_az[0], ft_track_alt_az[1], ft_mean_alt_az[1],
                                      ft_track_sd, ft_rmse, err_alt_az[0], err_alt_az[1],
+                                     p_term[0],p_term[1],i_term[0],i_term[1],
                                      err_integral[0], err_integral[1], angvel_correction[0],
                                      angvel_correction[1], saturated, angvel_total[0],
                                      angvel_total[1], fb_kp, fb_ki, ff_alt, ff_azi, rec_exists,

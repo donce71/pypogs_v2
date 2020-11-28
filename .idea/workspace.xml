@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="908c80e6-8589-43a1-bf90-c9fd1b537246" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="908c80e6-8589-43a1-bf90-c9fd1b537246" name="Default Changelist" comment="Control loop adjusted&#10;added P_term and I_term in csv file">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/run_pypogsGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/run_pypogsGUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pypogs/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/pypogs/gui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/setupCLI_runGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/setupCLI_runGUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pypogs/system.py" beforeDir="false" afterPath="$PROJECT_DIR$/pypogs/system.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pypogs/tracking.py" beforeDir="false" afterPath="$PROJECT_DIR$/pypogs/tracking.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,7 +42,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.run_pypogsGUI">
+  <component name="RunManager" selected="Python.setupCLI_runGUI">
     <configuration name="AcquireAndDisplay (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pypogs-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -149,9 +150,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.setupCLI_runGUI" />
         <item itemvalue="Python.run_pypogsGUI" />
         <item itemvalue="Python.gui" />
-        <item itemvalue="Python.setupCLI_runGUI" />
         <item itemvalue="Python.test1" />
         <item itemvalue="Python.AcquireAndDisplay (1)" />
       </list>
@@ -168,7 +169,25 @@
       <option name="presentableId" value="Default" />
       <updated>1604786123548</updated>
     </task>
+    <task id="LOCAL-00001" summary="Added fine cam max white value">
+      <created>1606593273424</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1606593273424</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -180,6 +199,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added fine cam max white value" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added fine cam max white value" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
