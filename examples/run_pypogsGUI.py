@@ -11,7 +11,7 @@ sys.path.append('..')
 import pypogs
 
 sys = pypogs.System()
-sys.add_coarse_camera(model='ptgrey', identity='18285284')
+sys.add_fine_camera(model='ptgrey', identity='18285284')
 
 try:
     pypogs.GUI(sys, 500)

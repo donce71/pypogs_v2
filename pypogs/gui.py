@@ -502,9 +502,12 @@ class LiveViewFrame(ttk.Frame):
         ttk.Radiobutton(self.bottom_frame1, text='Fine (FCL)', variable=self.camera_variable, value=FINE_FCL) \
                 .grid(row=0, column=5, padx=(5,0))
         self.logger.debug('Creating entry and checkbox for image max value control')
-        ttk.Label(self.bottom_frame1, text='Max Value:').grid(row=0, column=6, padx=(30,0))
+        ttk.Label(self.bottom_frame1, text='Max Value coarse:').grid(row=0, column=6, padx=(30,0))
         self.max_entry = ttk.Entry(self.bottom_frame1, width=10)
         self.max_entry.grid(row=0, column=7, padx=(5,0))
+        ttk.Label(self.bottom_frame1, text='Max Value fine:').grid(row=1, column=6, padx=(30,0))
+        self.max_entry_fine = ttk.Entry(self.bottom_frame1, width=10)
+        self.max_entry_fine.grid(row=1, column=7, padx=(5,0))
         self.auto_max_variable = tk.BooleanVar()
         self.auto_max_variable.set(True)
         ttk.Checkbutton(self.bottom_frame1, variable=self.auto_max_variable, text='Auto')\
@@ -781,19 +784,32 @@ class LiveViewFrame(ttk.Frame):
 
         self.logger.debug('Setting image to: ' + str(img))
         if img is not None:
-            if self.auto_max_variable.get(): #Auto set max scaling
+            if self.auto_max_variable.get():  # Auto set max scaling
                 maxval = int(np.max(img))
-                self.max_entry.delete(0, 'end')
-                self.max_entry.insert(0, str(maxval))
+                if cam == FINE_FCL:
+                    self.max_entry_fine.delete(0, 'end')
+                    self.max_entry_fine.insert(0, str(maxval))
+                else:
+                    self.max_entry.delete(0, 'end')
+                    self.max_entry.insert(0, str(maxval))
                 self.logger.debug('Using auto max scaling with maxval {}'.format(maxval))
             else:
                 try:
-                    maxval = int(self.max_entry.get())
-                    self.logger.debug('Using manual maxval {}'.format(maxval))
+                    # Max white mapping: Get max pixel value for coarse and for fine cameras seperatly
+                    # Max white mapping: for coarse and star cam
+                    if cam == STAR_OL or cam == COARSE_CCL:
+                        maxval = int(self.max_entry.get())
+                        self.logger.debug('Using manual maxval for coars/star {}'.format(maxval))
+                    # Max white mapping: for fine cam
+                    else:
+                        maxval = int(self.max_entry_fine.get())
+                        self.logger.debug('Using manual maxval for finecam {}'.format(maxval))
                 except:
-                    self.logger.debug('Failed to convert max entry value {} to int'\
-                                       .format(self.max_entry.get()))
+                    self.logger.debug('Failed to convert max entry value {} to int' \
+                                      .format(self.max_entry.get()))
                     maxval = 255
+
+
             # Scale and convert to 8-bit
             img_scaled = (img / max(1, int(.8 * maxval / 255))).clip(0, 255).astype('uint8')
             pil_img = Image.fromarray(img_scaled)
