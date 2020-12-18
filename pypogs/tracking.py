@@ -863,6 +863,17 @@ class ControlLoopThread:
                                 if self._OL_Ki > 0 and self._CCL_Ki > 0:
                                     err_integral *= (self._OL_Kp * self._OL_Ki
                                                      / self._CCL_Kp / self._CCL_Ki)
+                    elif self._FCL_enable and ft_exists:
+                        self._log_debug('Evaluating FCL requirements')
+                        if ft_has_track and ft_track_sd is not None:
+                            self._log_debug('FCL track with SD: ' + str(ft_track_sd))
+                            if ft_track_sd < self._FCL_transition_th:
+                                self._log_info('Switching CCL > FCL.')
+                                mode = 'FCL'
+                                # Rescale integral term
+                                if self._CCL_Ki > 0 and self._FCL_Ki > 0:
+                                    err_integral *= (self._CCL_Kp * self._CCL_Ki
+                                                     / self._FCL_Kp / self._FCL_Ki)
                 elif mode == 'CCL':
                     self._log_debug('Mode switching started, currently in CCL')
                     if not self._CCL_enable or not ct_exists or not ct_has_track:

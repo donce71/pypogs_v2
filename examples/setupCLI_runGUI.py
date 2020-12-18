@@ -22,7 +22,7 @@ try:
     sys.target.set_target_from_ra_dec(40.4125, 89.26417) #Polaris
 
     #Load alignment from previous session observation
-    csv_file = r'C:\ESA Telescope\pypogs-master\pypogs\data\2020-11-24T172921_System_star_align.csv'
+    csv_file = r'C:\ESA Telescope\pypogs-master\pypogs\data\2020-12-04T173210_System_star_align.csv'
     if path.exists(csv_file):
         alignment_list = sys.get_alignment_list_from_csv(csv_file)
         sys.alignment.set_alignment_from_observations(alignment_list)
@@ -36,7 +36,7 @@ try:
     # COARSE/STAR
 	#sys.coarse_camera.exposure_time_auto = False
     #sys.coarse_track_thread.spot_tracker.image_th = 10000
-    sys.coarse_camera.exposure_time = 45 #450
+    sys.coarse_camera.exposure_time = 450 #450
     sys.coarse_camera.gain = 0
     sys.coarse_camera.frame_rate = 2
     sys.coarse_camera.binning = 2
@@ -44,7 +44,7 @@ try:
     sys.coarse_track_thread.goal_x_y = [0, 0]
     sys.coarse_track_thread.spot_tracker.max_search_radius = 500
     sys.coarse_track_thread.spot_tracker.min_search_radius = 200
-    sys.coarse_track_thread.spot_tracker.crop = (512, 512) #None  #(256,256)         #Pakeisti i None
+    sys.coarse_track_thread.spot_tracker.crop = (512, 512) #None #None  #(256,256)         #Pakeisti i None
     sys.coarse_track_thread.spot_tracker.spot_min_sum = 500
     sys.coarse_track_thread.spot_tracker.bg_subtract_mode = 'local_median'
     sys.coarse_track_thread.spot_tracker.sigma_mode = 'local_median_abs'
@@ -52,7 +52,7 @@ try:
     sys.coarse_track_thread.spot_tracker.smoothing_parameter = 4 #SD calculation window size (smaller -> faster SD will change)
     sys.coarse_track_thread.spot_tracker.rmse_smoothing_parameter = 8
     sys.coarse_track_thread.feedforward_threshold = 10
-    sys.coarse_track_thread.img_save_frequency = 10
+    sys.coarse_track_thread.img_save_frequency = 0.1
     sys.coarse_track_thread.image_folder = Path(r'C:\Users\Donatas Miklusis\Documents\Observations_pic')
 
     # FINE
@@ -74,7 +74,7 @@ try:
     sys.fine_track_thread.spot_tracker.rmse_smoothing_parameter = 20
     sys.fine_track_thread.spot_tracker.spot_max_axis_ratio = None
     sys.fine_track_thread.feedforward_threshold = 5
-    sys.fine_track_thread.img_save_frequency = 10
+    sys.fine_track_thread.img_save_frequency = 0.1
     sys.fine_track_thread.image_folder = Path(r'C:\Users\Donatas Miklusis\Documents\Observations_pic')
 
     # FEEDBACK

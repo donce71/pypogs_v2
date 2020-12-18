@@ -815,6 +815,7 @@ class System:
                         # TODO: Test	
                         fov_estimate = self.star_camera.plate_scale * img.shape[1] / 3600 #taip buvo pries tai kai gustavas sake pakeisti
                         solve = t3.solve_from_image(img, fov_estimate=fov_estimate, fov_max_error=0.5) # buvo 0.1 tada pasake padaryti i none tada jei all good tada i 0.5
+                        print(solve)
                         # self._logger.debug('TIME:  ' + timestamp.iso)
 
                         # Save image
