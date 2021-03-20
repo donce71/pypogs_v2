@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="908c80e6-8589-43a1-bf90-c9fd1b537246" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/setupCLI_runGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/setupCLI_runGUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pypogs/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/pypogs/gui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pypogs/system.py" beforeDir="false" afterPath="$PROJECT_DIR$/pypogs/system.py" afterDir="false" />
-    </list>
+    <list default="true" id="908c80e6-8589-43a1-bf90-c9fd1b537246" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,7 +181,14 @@
       <option name="project" value="LOCAL" />
       <updated>1608277279486</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Control loop adjusted&#10;added P_term and I_term in csv file&#10;star align file if exist added&#10;tracking parameters adjusted&#10;FCL turns on from the OL mode directly&#10;RA\DEC input adjusted">
+      <created>1616281305034</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1616281305034</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -216,7 +218,8 @@
     <MESSAGE value="Added fine cam max white value" />
     <MESSAGE value="Control loop adjusted&#10;added P_term and I_term in csv file&#10;star align file if exist added&#10;tracking parameters adjusted" />
     <MESSAGE value="Control loop adjusted&#10;added P_term and I_term in csv file&#10;star align file if exist added&#10;tracking parameters adjusted&#10;FCL turns on from the OL mode directly" />
-    <option name="LAST_COMMIT_MESSAGE" value="Control loop adjusted&#10;added P_term and I_term in csv file&#10;star align file if exist added&#10;tracking parameters adjusted&#10;FCL turns on from the OL mode directly" />
+    <MESSAGE value="Control loop adjusted&#10;added P_term and I_term in csv file&#10;star align file if exist added&#10;tracking parameters adjusted&#10;FCL turns on from the OL mode directly&#10;RA\DEC input adjusted" />
+    <option name="LAST_COMMIT_MESSAGE" value="Control loop adjusted&#10;added P_term and I_term in csv file&#10;star align file if exist added&#10;tracking parameters adjusted&#10;FCL turns on from the OL mode directly&#10;RA\DEC input adjusted" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
