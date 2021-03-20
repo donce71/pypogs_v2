@@ -1838,6 +1838,10 @@ class Target:
             start_time (astropy *Time*, optional): The start time to set.
             end_time (astropy *Time*, optional): The end time to set.
         """
+        ra = int(ra[0:2]) + int(ra[2:4])/60 + int(ra[4:6])/3600
+        ra = ra * 15
+        dec = int(dec[0:2]) + int(dec[2:4])/60 + int(dec[4:6])/3600
+
         self.target_object = apy_coord.SkyCoord(ra, dec, unit='deg')
         self.set_start_end_time(start_time, end_time)
 

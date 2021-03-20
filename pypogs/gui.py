@@ -1414,6 +1414,7 @@ class TargetFrame(ttk.Frame):
     def file_button_callback(self):
         try:
             raise NotImplementedError('Feature coming soon!')
+
         except Exception as err:
             ErrorPopup(self, err, self.logger)
 
@@ -1436,11 +1437,11 @@ class TargetFrame(ttk.Frame):
 
             radec_frame = ttk.Frame(self)
             radec_frame.grid(row=1, column=0, padx=(10,0), pady=10)
-            ttk.Label(radec_frame, text='Set target from RA/Dec:').grid(row=0, column=0, columnspan=2)
-            ttk.Label(radec_frame, text='RA: (deg)').grid(row=1, column=0, sticky=tk.E)
+            ttk.Label(radec_frame, text='Set target from RA/Dec hhmmss :').grid(row=0, column=0, columnspan=2)
+            ttk.Label(radec_frame, text='RA:(023344)').grid(row=1, column=0, sticky=tk.E)
             self.ra_entry = ttk.Entry(radec_frame, width=25, font='TkFixedFont')
             self.ra_entry.grid(row=1, column=1)
-            ttk.Label(radec_frame, text='Dec: (deg)').grid(row=2, column=0, sticky=tk.E)
+            ttk.Label(radec_frame, text='Dec:(891533)').grid(row=2, column=0, sticky=tk.E)
             self.dec_entry = ttk.Entry(radec_frame, width=25, font='TkFixedFont')
             self.dec_entry.grid(row=2, column=1)
             ttk.Button(radec_frame, text='Set', command=self.radec_callback) \
@@ -1476,8 +1477,19 @@ class TargetFrame(ttk.Frame):
             if isinstance(target, SkyCoord):
                 ra = target.ra.to_value('deg')
                 dec = target.dec.to_value('deg')
-                self.ra_entry.insert(0, str(ra))
-                self.dec_entry.insert(0, str(dec))
+                # Ra Dec convertion from degree back to deg:arcmin:arcsec
+                ra = ra/15
+                ra_min_ss = (ra-np.trunc(ra))*60
+                ra_h = str(int(np.trunc(ra)))
+                if (ra<10):
+                    ra_h = ('0' + str(int(np.trunc(ra))))
+
+                ra_string = (ra_h + str(int(np.trunc(ra_min_ss))) + str(int((ra_min_ss- np.trunc(ra_min_ss))*60)))
+                dec_min_ss = (dec-np.trunc(dec))*60
+                dec_string = (str(int(np.trunc(dec))) + str(int(np.trunc(dec_min_ss))) + str(int((dec_min_ss- np.trunc(dec_min_ss))*60)))
+
+                self.ra_entry.insert(0, str(ra_string))
+                self.dec_entry.insert(0, str(dec_string))
             elif isinstance(target, EarthSatellite):
                 (l1, l2) = self.master.sys.target.get_tle_raw()
                 self.tle_line1_entry.insert(0, l1)

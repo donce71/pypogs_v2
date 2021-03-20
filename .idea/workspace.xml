@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="908c80e6-8589-43a1-bf90-c9fd1b537246" name="Default Changelist" comment="Control loop adjusted&#10;added P_term and I_term in csv file">
+    <list default="true" id="908c80e6-8589-43a1-bf90-c9fd1b537246" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/run_pypogsGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/run_pypogsGUI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/setupCLI_runGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/setupCLI_runGUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pypogs/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/pypogs/gui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pypogs/system.py" beforeDir="false" afterPath="$PROJECT_DIR$/pypogs/system.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pypogs/tracking.py" beforeDir="false" afterPath="$PROJECT_DIR$/pypogs/tracking.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +41,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.setupCLI_runGUI">
+  <component name="RunManager" selected="Python.run_pypogsGUI">
     <configuration name="AcquireAndDisplay (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pypogs-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -89,9 +88,6 @@
       <module name="pypogs-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -99,7 +95,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/run_pypogsGUI.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
@@ -120,7 +116,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/setupCLI_runGUI.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
@@ -150,11 +146,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.setupCLI_runGUI" />
         <item itemvalue="Python.run_pypogsGUI" />
-        <item itemvalue="Python.gui" />
-        <item itemvalue="Python.test1" />
-        <item itemvalue="Python.AcquireAndDisplay (1)" />
+        <item itemvalue="Python.run_pypogsGUI" />
+        <item itemvalue="Python.run_pypogsGUI" />
+        <item itemvalue="Python.setupCLI_runGUI" />
+        <item itemvalue="Python.setupCLI_runGUI" />
       </list>
     </recent_temporary>
   </component>
@@ -176,7 +172,21 @@
       <option name="project" value="LOCAL" />
       <updated>1606593273424</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Control loop adjusted&#10;added P_term and I_term in csv file&#10;star align file if exist added&#10;tracking parameters adjusted">
+      <created>1606602132786</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1606602132786</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Control loop adjusted&#10;added P_term and I_term in csv file&#10;star align file if exist added&#10;tracking parameters adjusted&#10;FCL turns on from the OL mode directly">
+      <created>1608277279486</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1608277279486</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -194,7 +204,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -202,7 +214,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added fine cam max white value" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added fine cam max white value" />
+    <MESSAGE value="Control loop adjusted&#10;added P_term and I_term in csv file&#10;star align file if exist added&#10;tracking parameters adjusted" />
+    <MESSAGE value="Control loop adjusted&#10;added P_term and I_term in csv file&#10;star align file if exist added&#10;tracking parameters adjusted&#10;FCL turns on from the OL mode directly" />
+    <option name="LAST_COMMIT_MESSAGE" value="Control loop adjusted&#10;added P_term and I_term in csv file&#10;star align file if exist added&#10;tracking parameters adjusted&#10;FCL turns on from the OL mode directly" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -229,5 +243,11 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="i_term" />
+        <watch expression="(not fb_ki" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

@@ -17,22 +17,23 @@ try:
     sys.add_star_camera_from_coarse()
     sys.add_fine_camera(model='ptgrey', identity='18285254')
     sys.add_mount(model='Celestron', identity=0)
-    sys.alignment.set_location_lat_lon(lat=52.1253, lon=4.4956, height=44) #Zouterwoede
-    # sys.alignment.set_location_lat_lon(lat=52.2155, lon=4.4194, height=45) #ESTEC football field (0m MSL)
+    # sys.alignment.set_location_lat_lon(lat=52.1253, lon=4.4956, height=44) #Zouterwoede
+    sys.alignment.set_location_lat_lon(lat=52.2155, lon=4.4194, height=45) #ESTEC football field (0m MSL)
     sys.target.set_target_from_ra_dec(40.4125, 89.26417) #Polaris
 
     #Load alignment from previous session observation
-    csv_file = r'C:\ESA Telescope\pypogs-master\pypogs\data\2020-12-04T173210_System_star_align.csv'
+    csv_file = r'C:\ESA Telescope\pypogs-master\pypogs\data\2021-03-19T200458_System_star_align.csv'
     if path.exists(csv_file):
         alignment_list = sys.get_alignment_list_from_csv(csv_file)
         sys.alignment.set_alignment_from_observations(alignment_list)
 
 
-	# sys.target.set_target_from_ra_dec(40.4125, 89.26417) #Polaris
+    sys.target.set_target_from_ra_dec(40.4125, 89.26417) #Polaris
     # sys.target.set_target_from_ra_dec(37.6792, 14.3467) # Uranas
     # sys.target.set_target_from_ra_dec(288.6667, -22.7550) # Jupiter
     # sys.target.set_target_from_ra_dec(297.1458, -21.4019) # Saturn
-	
+
+
     # COARSE/STAR
 	#sys.coarse_camera.exposure_time_auto = False
     #sys.coarse_track_thread.spot_tracker.image_th = 10000
@@ -53,7 +54,7 @@ try:
     sys.coarse_track_thread.spot_tracker.rmse_smoothing_parameter = 8
     sys.coarse_track_thread.feedforward_threshold = 10
     sys.coarse_track_thread.img_save_frequency = 0.1
-    sys.coarse_track_thread.image_folder = Path(r'C:\Users\Donatas Miklusis\Documents\Observations_pic')
+    sys.coarse_track_thread.image_folder = Path(r'C:\Users\Donatas Miklusis\Documents\Observations_pic\coarse')
 
     # FINE
     sys.fine_camera.exposure_time = 60 # 10FPS interval is 100ms
@@ -75,7 +76,7 @@ try:
     sys.fine_track_thread.spot_tracker.spot_max_axis_ratio = None
     sys.fine_track_thread.feedforward_threshold = 5
     sys.fine_track_thread.img_save_frequency = 0.1
-    sys.fine_track_thread.image_folder = Path(r'C:\Users\Donatas Miklusis\Documents\Observations_pic')
+    sys.fine_track_thread.image_folder = Path(r'C:\Users\Donatas Miklusis\Documents\Observations_pic\fine')
 
     # FEEDBACK
     sys.control_loop_thread.integral_max_add = 30
@@ -100,7 +101,11 @@ try:
     sys.control_loop_thread.CTFSP_auto_update_CCL_goal_th = 10
     sys.control_loop_thread.CTFSP_disable_after_goal_update = True
 
+    sys.do_alignment_test()
+
     pypogs.GUI(sys, 500)
+
+
 except Exception:
     raise
 finally:
