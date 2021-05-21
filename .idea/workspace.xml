@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="908c80e6-8589-43a1-bf90-c9fd1b537246" name="Default Changelist" comment="" />
+    <list default="true" id="908c80e6-8589-43a1-bf90-c9fd1b537246" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/examples/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/setupCLI_runGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/setupCLI_runGUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pypogs/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/pypogs/gui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pypogs/system.py" beforeDir="false" afterPath="$PROJECT_DIR$/pypogs/system.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="pypogs-master" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -36,53 +46,14 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.run_pypogsGUI">
-    <configuration name="AcquireAndDisplay (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="pypogs-master" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/AcquireAndDisplay.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="gui" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="pypogs-master" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/pypogs" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pypogs/gui.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.test2">
     <configuration name="run_pypogsGUI" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pypogs-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -118,6 +89,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="pypogs-master" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="test1" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pypogs-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -139,13 +131,34 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="pypogs-master" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/test2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.run_pypogsGUI" />
-        <item itemvalue="Python.run_pypogsGUI" />
-        <item itemvalue="Python.run_pypogsGUI" />
-        <item itemvalue="Python.setupCLI_runGUI" />
-        <item itemvalue="Python.setupCLI_runGUI" />
+        <item itemvalue="Python.test2" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.test" />
       </list>
     </recent_temporary>
   </component>
@@ -188,7 +201,28 @@
       <option name="project" value="LOCAL" />
       <updated>1616281305034</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Control loop adjusted&#10;added P_term and I_term in csv file&#10;star align file if exist added&#10;tracking parameters adjusted&#10;FCL turns on from the OL mode directly&#10;RA\DEC input adjusted">
+      <created>1616281473698</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1616281473698</updated>
+    </task>
+    <task id="LOCAL-00006" summary="RA\DEC input adjusted&#10;input should be as hh:mm:ss &#10;eg. Ra 02:40:22 -&gt;024022  (must be 6 charts)&#10;DEC: 89:21:20 -&gt;892120">
+      <created>1616281743532</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1616281743532</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Commit before adding PhotonFocus camera">
+      <created>1621614386265</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1621614386265</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -218,8 +252,10 @@
     <MESSAGE value="Added fine cam max white value" />
     <MESSAGE value="Control loop adjusted&#10;added P_term and I_term in csv file&#10;star align file if exist added&#10;tracking parameters adjusted" />
     <MESSAGE value="Control loop adjusted&#10;added P_term and I_term in csv file&#10;star align file if exist added&#10;tracking parameters adjusted&#10;FCL turns on from the OL mode directly" />
-    <MESSAGE value="Control loop adjusted&#10;added P_term and I_term in csv file&#10;star align file if exist added&#10;tracking parameters adjusted&#10;FCL turns on from the OL mode directly&#10;RA\DEC input adjusted" />
-    <option name="LAST_COMMIT_MESSAGE" value="Control loop adjusted&#10;added P_term and I_term in csv file&#10;star align file if exist added&#10;tracking parameters adjusted&#10;FCL turns on from the OL mode directly&#10;RA\DEC input adjusted" />
+    <MESSAGE value="RA\DEC input adjusted" />
+    <MESSAGE value="RA\DEC input adjusted&#10;input should be as hh:mm:ss &#10;eg. Ra 02:40:22 -&gt;024022  (must be 6 charts)&#10;DEC: 89:21:20 -&gt;892120" />
+    <MESSAGE value="Commit before adding PhotonFocus camera" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commit before adding PhotonFocus camera" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -246,11 +282,5 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="PythonConfigurationType">
-        <watch expression="i_term" />
-        <watch expression="(not fb_ki" />
-      </configuration>
-    </watches-manager>
   </component>
 </project>

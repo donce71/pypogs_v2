@@ -19,16 +19,15 @@ try:
     sys.add_mount(model='Celestron', identity=0)
     # sys.alignment.set_location_lat_lon(lat=52.1253, lon=4.4956, height=44) #Zouterwoede
     sys.alignment.set_location_lat_lon(lat=52.2155, lon=4.4194, height=45) #ESTEC football field (0m MSL)
-    sys.target.set_target_from_ra_dec(40.4125, 89.26417) #Polaris
 
     #Load alignment from previous session observation
-    csv_file = r'C:\ESA Telescope\pypogs-master\pypogs\data\2021-03-19T200458_System_star_align.csv'
+    csv_file = r'C:\ESA Telescope\pypogs-master\pypogs\data\2021-03-30T192912_System_star_align.csv'
     if path.exists(csv_file):
         alignment_list = sys.get_alignment_list_from_csv(csv_file)
         sys.alignment.set_alignment_from_observations(alignment_list)
 
 
-    sys.target.set_target_from_ra_dec(40.4125, 89.26417) #Polaris
+    sys.target.set_target_from_ra_dec('023149', '891550') #Polaris
     # sys.target.set_target_from_ra_dec(37.6792, 14.3467) # Uranas
     # sys.target.set_target_from_ra_dec(288.6667, -22.7550) # Jupiter
     # sys.target.set_target_from_ra_dec(297.1458, -21.4019) # Saturn
@@ -62,7 +61,7 @@ try:
     sys.fine_camera.frame_rate = 10
     sys.fine_camera.binning = 2
     sys.fine_camera.plate_scale = .30
-    sys.fine_camera.flip_x = False
+    sys.fine_camera.flip_x = False          #X false, Y True  - with these settings fine cam connector is on the close side to the telescope
     sys.fine_camera.flip_y = True
     sys.fine_track_thread.spot_tracker.max_search_radius = 100
     sys.fine_track_thread.spot_tracker.min_search_radius = 10
@@ -101,7 +100,7 @@ try:
     sys.control_loop_thread.CTFSP_auto_update_CCL_goal_th = 10
     sys.control_loop_thread.CTFSP_disable_after_goal_update = True
 
-    sys.do_alignment_test()
+    # sys.do_alignment_test()
 
     pypogs.GUI(sys, 500)
 
