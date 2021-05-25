@@ -305,6 +305,7 @@ def run_camera() -> None:
     """TBW."""
     cam = Driver()
     cam.open()
+    time.sleep(1)
 
     ex_time = cam.get_exposure_time()
     f_rate = cam.get_framerate()
@@ -319,8 +320,9 @@ def run_camera() -> None:
 
     data = cam.grab()
 
-    plt.imshow(data)
-    plt.show()
+    if data is not None:
+        plt.imshow(data)
+        plt.show()
 
     cam.close()
 
@@ -355,5 +357,5 @@ def main():
 
 
 if __name__ == "__main__":
-    # run_camera()
-    main()
+    run_camera()
+    #main()
