@@ -1538,6 +1538,10 @@ class TrackingThread:
                 if not self._process_image.wait(timeout=3):
                     self._log_warning('Timeout waiting for image in loop')
                 image = self._image_data.copy()
+                #DM. changes
+                # image = image*0
+                # image[300:310,300:310] = 100
+
                 loop_timestamp = precision_timestamp() - start_timestamp
                 loop_datetime_utc = self._image_timestamp
                 self._log_debug('New loop. Timestamp: '+str(loop_timestamp))
@@ -1557,7 +1561,7 @@ class TrackingThread:
                 offs_step = np.array(self._goal_offset_rate) * dt
                 self._log_debug('Adding step to goal offset: (x,y): ' + str(offs_step))
                 self.spot_tracker.goal_offset_x_y += offs_step
-                # Update spottracker from image
+                ## Update spottracker from image
                 try:
                     img_used = self.spot_tracker.update_from_image(image, self._camera.plate_scale)
                 except BaseException:
@@ -1578,7 +1582,7 @@ class TrackingThread:
                         self._log_debug('Saving image to disk as name: ' + str(imgname))
                         tiff_write(self._image_folder / imgname, image)
                         img_saved = True
-                # Get state
+                ## Get state
                 has_track = self.spot_tracker.has_track
                 rmse = self.spot_tracker.rms_error
                 (x, y) = self.spot_tracker.track_x_y
@@ -1602,6 +1606,7 @@ class TrackingThread:
                                      offs_step[0], offs_step[1]])
                 loop_index += 1
                 self._process_image.clear()  # Clear processing flag, used to sync
+
         except BaseException:
             self._log_debug('Worker loop threw exception', exc_info=True)
             try:
@@ -3009,6 +3014,7 @@ class SpotTracker:
                                            bg_sub_mode=self.bg_subtract_mode,
                                            return_moments=True, sigma=self.image_sigma_th,
                                            centroid_window=self.centroid_window)
+
             if ret[0][:, 0].size > 0:
                 self._success_count += 1
                 self._fail_count = 0

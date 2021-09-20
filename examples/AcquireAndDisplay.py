@@ -2,7 +2,7 @@ import pypogs
 import time
 
 # Create instance and set parameters (will auto initialise)
-cam = pypogs.Camera(model='ptgrey', identity='18285284', name='CoarseCam')
+cam = pypogs.Camera(model='ptgrey', identity='18285254', name='CoarseCam')
 cam.gain = 0  # decibel
 cam.exposure_time = 100  # milliseconds
 cam.frame_rate_auto = True

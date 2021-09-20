@@ -6,11 +6,14 @@ import time
 import typing as t
 from pathlib import Path
 
+import harvesters.core
 import numpy as np
 from harvesters.core import Harvester, TimeoutException  # type: ignore
 import matplotlib.pyplot as plt
 
 
+
+from harvesters.core import Callback
 
 class CameraBase:
     """TBW."""
@@ -156,15 +159,46 @@ class Driver(CameraBase):
         cti = str(Path(cti).expanduser())
         h.add_file(cti)
         h.update()
-        # len(h.device_info_list)
-        # h.device_info_list[0]
+        len(h.device_info_list)
+        h.device_info_list[0]
+        print("creating ia....")
         ia = h.create_image_acquirer(0)
+        print("ia created")
+        # ia = h.create_image_acquirer(serial_number='050200047485')
         # ia.remote_device.node_map.Width.value = 1024  # max: 1312
         # ia.remote_device.node_map.Height.value = 1024  # max: 1082
         # ia.remote_device.node_map.PixelFormat.value = 'Mono12'
-        ia.start_acquisition()
+
+
+
+        from harvesters.core import ImageAcquirer
+        print(ImageAcquirer.Events.__members__)
+        from harvesters.core import Callback
+
+        class CallbackOnNewBuffer(Callback):
+            def __init__(self, ia: ImageAcquirer):
+                #
+                super().__init__()
+                #
+                self._ia = ia
+
+            def emit(self, context):
+                # # You would implement this method by yourself.
+                # with _ia.fetch_buffer() as buffer:
+                #     # Work with the fetched buffer.
+                #     print(buffer)
+                print("New image")
+
+        on_new_buffer = CallbackOnNewBuffer(self)
+        ia.add_callback(
+            ia.Events.NEW_BUFFER_AVAILABLE,
+            on_new_buffer
+        )
+
+        ia.start_acquisition(run_in_background=True)
         self._dev = h
         self._ia = ia
+        self.on_new_buffer =on_new_buffer
 
     def close(self) -> None:
         """TBW."""
@@ -296,9 +330,9 @@ class Driver(CameraBase):
 
         if self._ia:
             # print(self._ia.remote_device.node_map.AcquisitionFrameRateEnable.value)
-            self._ia.remote_device.node_map.AcquisitionFrameRateEnable.value = 'True'
+            # self._ia.remote_device.node_map.AcquisitionFrameRateMode.value = 'True'
 
-            return self._ia.remote_device.node_map.AcquisitionFrameRate.value
+            return self._ia.remote_device.node_map.AcquisitionFrameRateMax.value
         return 0.0
 
 def run_camera() -> None:
@@ -309,7 +343,7 @@ def run_camera() -> None:
 
     ex_time = cam.get_exposure_time()
     f_rate = cam.get_framerate()
-    print('ex time:', ex_time, 'framerate:', f_rate)
+    #print('ex time:', ex_time, 'framerate:', f_rate)
 
     # cam.set_exposure_time(1000)
     # cam.set_framerate(10)
@@ -317,12 +351,13 @@ def run_camera() -> None:
     # ex_time = cam.get_exposure_time()
     # f_rate=cam.get_framerate()
     # print('NEW: ex time:', ex_time, 'framerate:', f_rate)
+    time.sleep(2)
 
-    data = cam.grab()
-
-    if data is not None:
-        plt.imshow(data)
-        plt.show()
+    # data = cam.grab()
+    #
+    # if data is not None:
+    #     plt.imshow(data)
+    #     plt.show()
 
     cam.close()
 

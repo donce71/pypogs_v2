@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 try:
     cam = pypogs.Camera(model='phfocus', identity='AutoIP', name='CoarseCam')
     time.sleep(1)
-    cam.frame_rate = 2
+    cam.frame_rate = 20
     print('frame rate:', cam.frame_rate)  # hz
     # # Start acquisition
     notemap = cam._phfocus_ia.remote_device.node_map
@@ -17,7 +17,7 @@ try:
 
     print('Height before',notemap.Height.value)
 
-    cam.size_readout = (544, 500)
+    cam.size_readout = (640, 512)
     print('Height after', notemap.Height.value)
     cam.start()
     time.sleep(3)

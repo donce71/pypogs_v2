@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="908c80e6-8589-43a1-bf90-c9fd1b537246" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/examples/phfocus_t_runGUI.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/examples/test_cam.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/pypogs-master.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pypogs-master.iml" afterDir="false" />
+    <list default="true" id="908c80e6-8589-43a1-bf90-c9fd1b537246" name="Default Changelist" comment="Commit after adding PhotonFocus camera&#10;Most of fuctions works&#10;Binning is not implemented&#10;hardware.py was modified">
+      <change afterPath="$PROJECT_DIR$/examples/setup2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/AcquireAndDisplay.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/AcquireAndDisplay.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/phfocus_t_runGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/phfocus_t_runGUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/setupCLI_runGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/setupCLI_runGUI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/test2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/test_cam.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/test_cam.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pypogs/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/pypogs/gui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pypogs/hardware.py" beforeDir="false" afterPath="$PROJECT_DIR$/pypogs/hardware.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pypogs/tracking.py" beforeDir="false" afterPath="$PROJECT_DIR$/pypogs/tracking.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetra3/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/tetra3/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetra3/NOTICE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tetra3/NOTICE.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetra3/README.rst" beforeDir="false" afterPath="$PROJECT_DIR$/tetra3/README.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetra3/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/tetra3/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetra3/docs/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/tetra3/docs/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetra3/docs/api_docs.rst" beforeDir="false" afterPath="$PROJECT_DIR$/tetra3/docs/api_docs.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetra3/docs/conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/tetra3/docs/conf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetra3/docs/index.rst" beforeDir="false" afterPath="$PROJECT_DIR$/tetra3/docs/index.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetra3/docs/installation.rst" beforeDir="false" afterPath="$PROJECT_DIR$/tetra3/docs/installation.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetra3/docs/make.bat" beforeDir="false" afterPath="$PROJECT_DIR$/tetra3/docs/make.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetra3/examples/test_tetra3.py" beforeDir="false" afterPath="$PROJECT_DIR$/tetra3/examples/test_tetra3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetra3/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tetra3/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetra3/setup.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetra3/tetra3.py" beforeDir="false" afterPath="$PROJECT_DIR$/tetra3/tetra3.py" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,30 +50,32 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1jypKljXrpNUJXCuLl2k9FzciWG" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/examples" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyIntegratedToolsModulesConfigurable" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="PyConsoleConfigurable.Python Console" />
+  </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings module-name="pypogs-master" sdk-home="C:\ProgramData\Miniconda3\envs\pypogs_env\python.exe">
+        <option name="mySdkHome" value="C:\ProgramData\Miniconda3\envs\pypogs_env\python.exe" />
+        <option name="myModuleName" value="pypogs-master" />
+      </console-settings>
+    </option>
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\ESA Telescope\pypogs-master\examples" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
-  <component name="RunManager" selected="Python.phfocus_t_runGUI">
-    <configuration name="hardware" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.test2">
+    <configuration name="AcquireAndDisplay" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true" show_console_on_std_err="true" show_console_on_std_out="true">
       <module name="pypogs-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -60,11 +83,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/pypogs" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pypogs/hardware.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/AcquireAndDisplay.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -94,7 +117,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="run_pypogsGUI" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="pypogs-master" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\ProgramData\Miniconda3\envs\pypogs_env\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/run_pypogsGUI.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="setup2" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="pypogs-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -106,9 +150,9 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/test.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/setup2.py" />
       <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
@@ -136,44 +180,24 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test_cam" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="pypogs-master" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/test_cam.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <list>
-      <item itemvalue="Python.hardware" />
-      <item itemvalue="Python.test" />
-      <item itemvalue="Python.test2" />
-      <item itemvalue="Python.test_cam" />
+      <item itemvalue="Python.AcquireAndDisplay" />
       <item itemvalue="Python.phfocus_t_runGUI" />
+      <item itemvalue="Python.run_pypogsGUI" />
+      <item itemvalue="Python.setup2" />
+      <item itemvalue="Python.test2" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.phfocus_t_runGUI" />
-        <item itemvalue="Python.test_cam" />
         <item itemvalue="Python.test2" />
-        <item itemvalue="Python.hardware" />
-        <item itemvalue="Python.test_cam" />
+        <item itemvalue="Python.run_pypogsGUI" />
+        <item itemvalue="Python.setup2" />
+        <item itemvalue="Python.phfocus_t_runGUI" />
+        <item itemvalue="Python.AcquireAndDisplay" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -241,7 +265,14 @@
       <option name="project" value="LOCAL" />
       <updated>1621614789032</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Commit after adding PhotonFocus camera&#10;Most of fuctions works&#10;Binning is not implemented&#10;hardware.py was modified">
+      <created>1621959892244</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1621959892245</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -259,13 +290,12 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added fine cam max white value" />
@@ -274,7 +304,8 @@
     <MESSAGE value="RA\DEC input adjusted" />
     <MESSAGE value="RA\DEC input adjusted&#10;input should be as hh:mm:ss &#10;eg. Ra 02:40:22 -&gt;024022  (must be 6 charts)&#10;DEC: 89:21:20 -&gt;892120" />
     <MESSAGE value="Commit before adding PhotonFocus camera" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit before adding PhotonFocus camera" />
+    <MESSAGE value="Commit after adding PhotonFocus camera&#10;Most of fuctions works&#10;Binning is not implemented&#10;hardware.py was modified" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commit after adding PhotonFocus camera&#10;Most of fuctions works&#10;Binning is not implemented&#10;hardware.py was modified" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -290,14 +321,24 @@
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/examples/AcquireAndDisplay.py</url>
-          <line>5</line>
-          <option name="timeStamp" value="7" />
+          <url>file://$USER_HOME$/.conda/envs/pypogs_env/Lib/site-packages/harvesters/core.py</url>
+          <line>1809</line>
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/examples/AcquireAndDisplay.py</url>
-          <line>4</line>
-          <option name="timeStamp" value="8" />
+          <url>file://$PROJECT_DIR$/../../ProgramData/Miniconda3/envs/pypogs_env/Lib/ftplib.py</url>
+          <line>136</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../../ProgramData/Miniconda3/envs/pypogs_env/Lib/site-packages/astropy/utils/iers/iers.py</url>
+          <line>70</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/pypogs/hardware.py</url>
+          <line>416</line>
+          <option name="timeStamp" value="53" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

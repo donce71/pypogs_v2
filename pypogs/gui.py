@@ -770,7 +770,10 @@ class LiveViewFrame(ttk.Frame):
             except:
                 self.logger.debug('Failed', exc_info=True)
 
-        if img is not None:
+        if img is not None and img.size == 0:
+            print('_____________________Image size 0')
+
+        if (img is not None) and (img.size != 0):
             zoom = self.zoom_variable.get()
             (height, width) = img.shape
             offs_x = round(width / 2 * (1 - 1/zoom))
@@ -783,16 +786,20 @@ class LiveViewFrame(ttk.Frame):
                 self.logger.warning('Failed to zoom image')
 
         self.logger.debug('Setting image to: ' + str(img))
-        if img is not None:
+        if (img is not None) and (img.size != 0):
             if self.auto_max_variable.get():  # Auto set max scaling
-                maxval = int(np.max(img)*0.5)
-                if cam == FINE_FCL:
-                    self.max_entry_fine.delete(0, 'end')
-                    self.max_entry_fine.insert(0, str(maxval))
-                else:
-                    self.max_entry.delete(0, 'end')
-                    self.max_entry.insert(0, str(maxval))
-                self.logger.debug('Using auto max scaling with maxval {}'.format(maxval))
+                try:
+                    maxval = int(np.max(img)*0.8)
+                    if cam == FINE_FCL:
+                        self.max_entry_fine.delete(0, 'end')
+                        self.max_entry_fine.insert(0, str(maxval))
+                    else:
+                        self.max_entry.delete(0, 'end')
+                        self.max_entry.insert(0, str(maxval))
+                        self.logger.debug('Using auto max scaling with maxval {}'.format(maxval))
+                except:
+                    self.logger.debug('Failed to convert max entry value {} to int')
+                    maxval = 255
             else:
                 try:
                     # Max white mapping: Get max pixel value for coarse and for fine cameras seperatly

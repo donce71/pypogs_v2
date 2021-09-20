@@ -149,8 +149,11 @@ class Camera:
         if name is not None:
             self.name = name
         if auto_init and not None in (model, identity):
-            self._logger.debug('Trying to auto-initialise')
-            self.initialize()
+            try:
+                self._logger.debug('Trying to auto-initialise')
+                self.initialize()
+            except:
+                self._log_debug('Camera initialization failed')
         self._logger.debug('Registering destructor')
         # TODO: Should we register deinitialisor instead? (probably yes...)
         import atexit, weakref
@@ -221,12 +224,16 @@ class Camera:
         """ gets an image from buffer if available."""
         if self._phfocus_ia:
             try:
-                with self._phfocus_ia.fetch_buffer(timeout=0.1) as buffer:
+                with self._phfocus_ia.fetch_buffer(timeout=0.001) as buffer:
                     component = buffer.payload.components[0]
                     data = component.data.reshape(component.height, component.width)
-                    return np.array(data)
+                    if np.array(data).size == 0:
+                        return None
+                    else:
+                        return np.array(data)
             except TimeoutException:
-                self._log_debug("PhFocus error: Timeout error.")
+                # self._log_debug("PhFocus error: Timeout error.")
+                err= 'rr'
 
         return None
 
@@ -241,9 +248,8 @@ class Camera:
                 print('PhFocus open is false')
                 break
             # if not self._is_acquiring:
-                # print('accuare is false')
+                # print('acquire is false')
                 # break
-
             try:
                 data = self._phfocus_grab()
             except Exception as exc:
@@ -256,7 +262,7 @@ class Camera:
                     self._phfocus_on_frame_ready(data)
 
         self._log_debug("Exiting _phfocus_grab_continuous")
-        print("Exiting _phfocus_grab_continuous")
+        # print("Exiting _phfocus_grab_continuous")
 
 
     def set_on_frame_ready(self, on_frame_ready):
@@ -476,27 +482,23 @@ class Camera:
             # ia.remote_device.node_map.Width.value = 1024  # max: 1312
             # ia.remote_device.node_map.Height.value = 1024  # max: 1082
             # ia.remote_device.node_map.PixelFormat.value = 'Mono12'
-            self._log_debug('Setting pixel format to mono8')
-            self._log_debug('Setting gamma off')
+            self._log_debug('Setting pixel format to mono12')
             self._log_debug('Setting acquisition mode to continuous')
-            self._log_debug('Setting stream mode to newest only')
-            self._phfocus_ia.remote_device.node_map.PixelFormat.value = 'Mono8'
+            self._phfocus_ia.remote_device.node_map.PixelFormat.value = 'Mono12'
             self._phfocus_ia.remote_device.node_map.AcquisitionMode.value = 'Continuous'
-            #self._phfocus_ia.remote_device.node_map.Gamma.value = 'False'
-            self._phfocus_ia.remote_device.node_map.AcquisitionFrameRateEnable.value = 'True'
-
-            # self._ptgrey_camera.PixelFormat.SetValue(PySpin.PixelFormat_Mono16)
-            # nodemap = self._ptgrey_camera.GetNodeMap()
-            # PySpin.CBooleanPtr(nodemap.GetNode('GammaEnable')).SetValue(False)
-            # self._ptgrey_camera.AcquisitionMode.SetIntValue(PySpin.AcquisitionMode_Continuous)
-            # self._ptgrey_camera.TLStream.StreamBufferHandlingMode.SetIntValue(
-                                                                        # PySpin.StreamBufferHandlingMode_NewestOnly)
+            self._phfocus_ia.remote_device.node_map.EnAcquisitionFrameRate.value = 'True'
+            # time.sleep(3)
+            # self._phfocus_ia.remote_device.AcquisitionFrameRateMode.value = 'ExposureControlled'
+            # self._phfocus_ia.remote_device.AcquisitionStart.value = 'True'
 
             def OnImageEvent(data):
                 """Read out the image and a timestamp, reshape to array, pass to cam object"""
-                print('Debug print: Counter', self._imgs_since_start, data.shape, 'mean:', np.mean(data))
+                # print('Debug print: Counter', self._imgs_since_start, data.shape, 'mean:', np.mean(data))
                 self._log_debug('Image event! Unpack ')
                 self._image_timestamp = datetime.utcnow()
+                #DM changes
+                data = data * 0
+                data[300:310,300:310] = 100
                 try:
                     img = data
                     if self._flipX:
@@ -570,8 +572,8 @@ class Camera:
                     'frame_rate', 'gain_auto', 'gain', 'exposure_time_auto', 'exposure_time')
         elif self.model.lower() == 'phfocus':
             #TODO: check whether its vailidity
-            return ('flip_x', 'flip_y', 'rotate_90', 'plate_scale', 'rotation', 'binning', 'size_readout', 'frame_rate_auto',\
-                    'frame_rate', 'gain_auto', 'gain', 'exposure_time_auto', 'exposure_time')
+            return ('flip_x', 'flip_y', 'rotate_90', 'plate_scale', 'rotation', 'size_readout',\
+                    'frame_rate', 'gain', 'exposure_time')
         else:
             self._log_warning('Forbidden model string defined.')
             raise RuntimeError('An unknown (forbidden) model is defined: '+str(self.model))
@@ -760,7 +762,7 @@ class Camera:
         elif self.model.lower() == 'phfocus':
             self._log_debug('Using phfocus frame rate limits')
             frame_rate_max = self._phfocus_ia.remote_device.node_map.AcquisitionFrameRateMax.value
-            frame_rate_min = 1.49 #Hz
+            frame_rate_min = 2.1 #Hz
             return frame_rate_min, frame_rate_max
         else:
             self._log_warning('Forbidden model string defined.')
@@ -819,7 +821,16 @@ class Camera:
                         raise #Rethrows error
         elif self.model.lower() == 'phfocus':
             if self._phfocus_ia:
-                self._phfocus_ia.remote_device.node_map.AcquisitionFrameRate.value = frame_rate_hz
+                try:
+                    if frame_rate_hz< self._phfocus_ia.remote_device.node_map.AcquisitionFrameRateMax.value:
+                        self._phfocus_ia.remote_device.node_map.AcquisitionFrameRate.value = frame_rate_hz
+                    else:
+                        self._log_warning('Frame rate above max limit. Change exposure time.')
+                except self._phfocus_ia as e:
+                    if 'OutOfRangeException' in e.message:
+                        raise AssertionError('The commanded value is outside the allowed range. See frame_rate_limit')
+                    else:
+                        raise #Rethrows error
         else:
             self._log_warning('Forbidden model string defined.')
             raise RuntimeError('An unknown (forbidden) model is defined: '+str(self.model))
