@@ -220,51 +220,6 @@ class Camera:
             self._phfocus_dev = None
         self._log_debug('PhotonFocus Hardware released')
 
-    def _phfocus_grab(self):
-        """ gets an image from buffer if available."""
-        if self._phfocus_ia:
-            try:
-                with self._phfocus_ia.fetch_buffer(timeout=0.001) as buffer:
-                    component = buffer.payload.components[0]
-                    data = component.data.reshape(component.height, component.width)
-                    if np.array(data).size == 0:
-                        return None
-                    else:
-                        return np.array(data)
-            except TimeoutException:
-                # self._log_debug("PhFocus error: Timeout error.")
-                err= 'rr'
-
-        return None
-
-
-    def _phfocus_grab_continuous(self) -> None:
-        """Thread fuction, checks whether new image is available"""
-        self._log_debug("Entering _phfocus_grab_continuous")
-        self._phfocus_is_running = True
-        _frame_num = 0
-        while self._phfocus_is_running:
-            if self._phfocus_dev is None:
-                print('PhFocus open is false')
-                break
-            # if not self._is_acquiring:
-                # print('acquire is false')
-                # break
-            try:
-                data = self._phfocus_grab()
-            except Exception as exc:
-                self._log_debug(str(exc))
-                time.sleep(2.0)
-                continue
-
-            if data is not None:
-                if self._phfocus_on_frame_ready:
-                    self._phfocus_on_frame_ready(data)
-
-        self._log_debug("Exiting _phfocus_grab_continuous")
-        # print("Exiting _phfocus_grab_continuous")
-
-
     def set_on_frame_ready(self, on_frame_ready):
         """Add a method to be called on new frame arrival"""
         self._phfocus_on_frame_ready = on_frame_ready
@@ -491,41 +446,56 @@ class Camera:
             # self._phfocus_ia.remote_device.AcquisitionFrameRateMode.value = 'ExposureControlled'
             # self._phfocus_ia.remote_device.AcquisitionStart.value = 'True'
 
-            def OnImageEvent(data):
-                """Read out the image and a timestamp, reshape to array, pass to cam object"""
-                # print('Debug print: Counter', self._imgs_since_start, data.shape, 'mean:', np.mean(data))
-                self._log_debug('Image event! Unpack ')
-                self._image_timestamp = datetime.utcnow()
-                #DM changes
-                data = data * 0
-                data[300:310,300:310] = 100
-                try:
-                    img = data
-                    if self._flipX:
-                        img = np.fliplr(img)
-                    if self._flipY:
-                        img = np.flipud(img)
-                    if self._rot90:
-                        img = np.rot90(img, self._rot90)
-                    self._image_data = img
-                except:
-                    self._log_warning('Failed to read image', exc_info=True)
-                    self._image_data = None
-                self._got_image_event.set()
-                self._log_debug('Time: ' + str(self._image_timestamp) \
-                                       + ' Size:' + str(self._image_data.shape) \
-                                       + ' Type:' + str(self._image_data.dtype))
-                for func in self._call_on_image:
-                    try:
-                        self._log_debug('Calling back to: ' + str(func))
-                        func(self._image_data, self._image_timestamp)
-                    except:
-                        self._log_warning('Failed image callback', exc_info=True)
-                self._imgs_since_start += 1
-                self._log_debug('Image event handler finished.')
+            from harvesters.core import Callback
+            class CallbackOnNewBuffer(Callback):
+                """Barebones event handler for phfocus, just pass along the event to the Camera class."""
+                def __init__(self, parent):
+                    super().__init__()
+                    self.parent = parent
 
-            # add method to the callback method
-            self.set_on_frame_ready(on_frame_ready=OnImageEvent)
+                def emit(self, context):
+                    """Read out the image and a timestamp, reshape to array, pass to parent"""
+                    with self.parent._phfocus_ia.fetch_buffer() as buffer:
+                        # Work with the fetched buffer.
+                        """Read out the image and a timestamp, reshape to array, pass to cam object"""
+                        # print('Debug print: Counter', self._imgs_since_start, data.shape, 'mean:', np.mean(data))
+                        self.parent._log_debug('Image event! Unpack ')
+                        self.parent._image_timestamp = datetime.utcnow()
+                        try:
+                            component = buffer.payload.components[0]
+                            data = component.data.reshape(component.height, component.width)
+                            img = data.copy()
+                            # img[300:310, 300:310] = 4000    #for debug fake spot
+                            if self.parent._flipX:
+                                img = np.fliplr(img)
+                            if self.parent._flipY:
+                                img = np.flipud(img)
+                            if self.parent._rot90:
+                                img = np.rot90(img, self.parent._rot90)
+                            self.parent._image_data = img
+                        except:
+                            self.parent._log_warning('Failed to read image', exc_info=True)
+                            self.parent._image_data = None
+                        self.parent._got_image_event.set()
+                        self.parent._log_debug('Time: ' + str(self.parent._image_timestamp) \
+                                        + ' Size:' + str(self.parent._image_data.shape) \
+                                        + ' Type:' + str(self.parent._image_data.dtype))
+                        for func in self.parent._call_on_image:
+                            try:
+                                self.parent._log_debug('Calling back to: ' + str(func))
+                                func(self.parent._image_data, self.parent._image_timestamp)
+                            except:
+                                self.parent._log_warning('Failed image callback', exc_info=True)
+                        self.parent._imgs_since_start += 1
+                        self.parent._log_debug('Image event handler finished.')
+                        self.parent._phfocus_is_running = True
+
+            # add method to the callback method for camera NEW_BUFFER event
+            on_new_buffer = CallbackOnNewBuffer(self)
+            ia.add_callback(
+                ia.Events.NEW_BUFFER_AVAILABLE,
+                on_new_buffer
+            )
 
         else:
             self._log_warning('Forbidden model string defined.')
@@ -1456,10 +1426,7 @@ class Camera:
         elif self.model.lower() == 'phfocus':
             #TODO: DM finish it, add logs and protections
             try:
-                # if self._phfocus_th is None:
-                self._phfocus_ia.start_acquisition()
-                self._phfocus_th = threading.Thread(target=self._phfocus_grab_continuous, name="GenICamGrab")
-                self._phfocus_th.start()
+                self._phfocus_ia.start_acquisition(run_in_background=True)
             except:
                 self._log_warning('Phfocus thread cant start')
                 raise
@@ -1485,7 +1452,6 @@ class Camera:
             try:
                 self._phfocus_ia.stop_acquisition()
                 self._phfocus_is_running = False
-                self._phfocus_th.join() #Kills thread
             except:
                 self._log_debug('Could not stop PhFocus:', exc_info=True)
                 raise RuntimeError('Failed to stop PhFocus camera acquisition')

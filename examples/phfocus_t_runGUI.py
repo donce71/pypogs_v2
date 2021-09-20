@@ -18,7 +18,7 @@ try:
     # FINE
     sys.fine_camera.exposure_time = 100 # 10FPS interval is 100ms
     sys.fine_camera.gain = 1
-    sys.fine_camera.frame_rate = 8
+    sys.fine_camera.frame_rate = 3
     sys.fine_camera.plate_scale = .69
     sys.fine_camera.flip_x = False          #X false, Y True  - with these settings fine cam connector is on the close side to the telescope
     sys.fine_camera.flip_y = True

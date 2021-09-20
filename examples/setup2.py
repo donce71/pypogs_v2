@@ -62,7 +62,7 @@ try:
     sys.fine_camera.exposure_time = 100 # 10FPS interval is 100ms
     sys.fine_camera.gain = 1 #Phfocus min gain:
     sys.fine_camera.frame_rate = 3 # min frame rate for MV3 ~2.2
-    sys.fine_camera.plate_scale = .69
+    sys.fine_camera.plate_scale = 1.29
     sys.fine_camera.flip_x = False          #X false, Y True  - with these settings fine cam connector is on the close side to the telescope
     sys.fine_camera.flip_y = True
     sys.fine_track_thread.spot_tracker.max_search_radius = 100
