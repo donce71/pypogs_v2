@@ -131,7 +131,6 @@ class Camera:
         #Only used for phfocus
         self._phfocus_dev = None
         self._phfocus_ia = None
-        self._phfocus_th = None
         self._phfocus_on_frame_ready = None
         self._phfocus_is_running = False
         #Callbacks on image event
@@ -153,7 +152,7 @@ class Camera:
                 self._logger.debug('Trying to auto-initialise')
                 self.initialize()
             except:
-                self._log_debug('Camera initialization failed')
+                self._logger.info('Camera initialization failed')
         self._logger.debug('Registering destructor')
         # TODO: Should we register deinitialisor instead? (probably yes...)
         import atexit, weakref
@@ -213,10 +212,18 @@ class Camera:
         self._log_debug('Photon Focus hardware release called')
         if self._phfocus_ia:
             self._phfocus_ia.stop_acquisition()
-            self._phfocus_ia.destroy()
+            try:
+                self._phfocus_ia.destroy()
+            except:
+                pass
+            del (self._phfocus_ia)
             self._phfocus_ia = None
         if self._phfocus_dev:
-            self._phfocus_dev.reset()
+            try:
+                self._phfocus_dev.reset()
+            except:
+                pass
+            del (self._phfocus_dev)
             self._phfocus_dev = None
         self._log_debug('PhotonFocus Hardware released')
 
@@ -1399,6 +1406,10 @@ class Camera:
             return self._ptgrey_camera is not None and self._ptgrey_camera.IsStreaming()
         elif self.model.lower() == 'phfocus':
             #TODO: DM finish it
+            if self._image_timestamp is not None:
+                time_since_last_image = (datetime.utcnow() - self._image_timestamp).total_seconds()
+                if time_since_last_image >0.5: #If last image was 1sec ago
+                    self._phfocus_is_running = False
             return self._phfocus_dev is not None and self._phfocus_is_running
         else:
             self._log_warning('Forbidden model string defined.')
@@ -1426,9 +1437,10 @@ class Camera:
         elif self.model.lower() == 'phfocus':
             #TODO: DM finish it, add logs and protections
             try:
+                self._phfocus_ia.stop_acquisition()
                 self._phfocus_ia.start_acquisition(run_in_background=True)
             except:
-                self._log_warning('Phfocus thread cant start')
+                self._log_warning('Phfocus camera cant start, trying reconnect..')
                 raise
         else:
             self._log_warning('Forbidden model string defined.')

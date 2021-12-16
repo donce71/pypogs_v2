@@ -36,6 +36,7 @@ from threading import Thread, Event
 from time import sleep, perf_counter as precision_timestamp
 from datetime import datetime
 from csv import writer as csv_write
+from os import path
 
 # External imports:
 from astropy.time import Time as apy_time
@@ -434,6 +435,7 @@ class ControlLoopThread:
         self._log_debug('OL goal offset set got: ' + str(offset))
         self._OL_goal_offset_x_y = np.array(offset) / 3600  # deg internally
         self._log_debug('OL goal offset set to: ' + str(self.OL_goal_offset_x_y))
+        self._log_info('OL goal offset set to: ' + str(self.OL_goal_offset_x_y))
 
     @property
     def CCL_enable(self):
@@ -780,6 +782,18 @@ class ControlLoopThread:
             while not self._stop_loop and (loop_utctime < end_time
                                            if end_time is not None else True):
                 # CONTROL LOOP #
+                #DM external commands
+                # TODO: test and finish
+                try:
+                    csv_file = r'C:\Pypogs\pypogs-master\pypogs\ex_commands.csv'
+                    if path.exists(csv_file):
+                        command_list = self._parent.get_external_commands_from_csv(csv_file)
+                        if command_list is not None:
+                            ex_offsets = self._parent.execute_commands_from_csv(command_list)
+                            if ex_offsets is not None:
+                                self.OL_goal_offset_x_y = ex_offsets
+                except:
+                    self._log_info('EXT csv read error')
                 # Time info:
                 loop_timestamp = seconds_since_start()
                 loop_utctime = apy_time.now()  # Astropy timestamp in UTC
@@ -1548,7 +1562,8 @@ class TrackingThread:
                 dt = loop_timestamp - old_timestamp
                 old_timestamp = loop_timestamp
                 self._actual_freq = 1/dt
-                # Feedforward
+
+                # # Feedforward
                 ff_step_abs = np.sqrt(np.sum(np.array(self._feedforward_rate)**2))
                 self._log_debug('Feedforward step magnitude: ' + str(ff_step_abs))
                 if ff_step_abs > self._feedforward_threshold:
@@ -1557,6 +1572,7 @@ class TrackingThread:
                     self.spot_tracker.change_mean_relative(*ff_step)
                 else:
                     ff_step = np.array([0, 0])
+
                 # Update the goal offset
                 offs_step = np.array(self._goal_offset_rate) * dt
                 self._log_debug('Adding step to goal offset: (x,y): ' + str(offs_step))

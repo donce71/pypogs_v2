@@ -853,11 +853,12 @@ class System:
 
     def get_alignment_list_from_csv(self, star_align):
         """Read data from csv and put in list for alignment
-    	Args:
+        Args:
             star_align (path, must): csv file with RA,DE,0,0,0,apy_time, az,al. Blank lines - no difference.
-    	Returns:
+        Returns:
             list for method (set_alignment_from_observations(alignment_list))
                 """
+        # TODO: test and finish
         alignment_list = []
         parsed_list = []
         with open(star_align, newline='') as csvfile:
@@ -883,6 +884,54 @@ class System:
                 except:
                     print("Align_read_CSV: Empty raw or file header since no APY time")
         return alignment_list
+
+    def get_external_commands_from_csv(self, file_path):
+        """Read data from csv and put in list for alignment
+        Args:
+            file_path (path, must): csv file with RA,DE,0,0,0,apy_time, az,al. Blank lines - no difference.
+        Returns:
+            list for method (set_alignment_from_observations(alignment_list))
+                """
+        # TODO: test and finish
+        parsed_list = []
+        with open(file_path, newline='') as csvfile:
+            reader = csv_reader(csvfile, delimiter=',')
+            for row in reader:
+                try:
+                    parsed_list = (int(float(row[0])), row[1], row[2], row[3], int(float(row[4])), row[5],
+                                   int(float(row[6])))
+                except:
+                    # print("csv_read error")
+                    A=1
+
+        if parsed_list[0]==1:
+            y = list(parsed_list)
+            y[0] = 0
+            parsed_list = tuple(y)
+            with open(file_path, 'w+') as file:
+                writer = csv_write(file)
+                writer.writerow(parsed_list)
+            return parsed_list
+
+        return None
+
+    def execute_commands_from_csv(self, cmd_list):
+        """Read data from csv and put in list for alignment
+        Args:
+            file_path (path, must): csv file with RA,DE,0,0,0,apy_time, az,al. Blank lines - no difference.
+        Returns:
+            list for method (set_alignment_from_observations(alignment_list))
+                """
+        _offsetX, _offsetY = 0, 0
+        if cmd_list is not None:
+            if cmd_list[2] == "true":
+                _auto_offset = True
+            else:
+                _offsetX = cmd_list[4]
+                _offsetY = cmd_list[6]
+                # self.sys.control_loop_thread.OL_goal_offset_x_y = [_offsetX, _offsetY]
+                return [_offsetX, _offsetY]
+        return [_offsetX, _offsetY]
 
     def get_alt_az_of_target(self, times=None, time_step=.1):
         """Get the corrected altitude and azimuth angles and rates of the target from the current
@@ -1836,14 +1885,25 @@ class Target:
         """Create an Astropy *SkyCoord* and set as the target.
 
         Args:
-            ra (float): Right ascension in decimal degrees.
-            dec (float): Declination in decimal degrees.
+            ra (float): Right ascension must be 6 digits ex:030031 or -030031
+            dec (float): Declination must be 6 digits ex:891516 or -021500
             start_time (astropy *Time*, optional): The start time to set.
             end_time (astropy *Time*, optional): The end time to set.
         """
-        ra = int(ra[0:2]) + int(ra[2:4])/60 + int(ra[4:6])/3600
-        ra = ra * 15
-        dec = int(dec[0:2]) + int(dec[2:4])/60 + int(dec[4:6])/3600
+
+        if ((ra[0:1]) == "-"):
+            ra = ra[1:7]
+            ra = int(ra[0:2]) + int(ra[2:4]) / 60 + int(ra[4:6]) / 3600
+            ra = ra * 15 * (-1)
+        else:
+            ra = int(ra[0:2]) + int(ra[2:4]) / 60 + int(ra[4:6]) / 3600
+            ra = ra * 15
+
+        if ((dec[0:1]) == "-"):
+            dec = dec[1:7]
+            dec = (-1) * (int(dec[0:2]) + int(dec[2:4]) / 60 + int(dec[4:6]) / 3600)
+        else:
+            dec = int(dec[0:2]) + int(dec[2:4]) / 60 + int(dec[4:6]) / 3600
 
         self.target_object = apy_coord.SkyCoord(ra, dec, unit='deg')
         self.set_start_end_time(start_time, end_time)

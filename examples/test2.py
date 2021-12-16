@@ -4,6 +4,7 @@ import logging
 import threading
 import time
 import typing as t
+from datetime import datetime
 from pathlib import Path
 
 import harvesters.core
@@ -187,7 +188,7 @@ class Driver(CameraBase):
                 # with _ia.fetch_buffer() as buffer:
                 #     # Work with the fetched buffer.
                 #     print(buffer)
-                print("New image")
+                print(datetime.utcnow(), "New image")
 
         on_new_buffer = CallbackOnNewBuffer(self)
         ia.add_callback(
@@ -209,6 +210,7 @@ class Driver(CameraBase):
         if self._dev:
             self._dev.reset()
             self._dev = None
+        print("Cam closed")
 
     def is_acquiring(self) -> bool:
         """TBW."""
@@ -343,7 +345,7 @@ def run_camera() -> None:
 
     ex_time = cam.get_exposure_time()
     f_rate = cam.get_framerate()
-    #print('ex time:', ex_time, 'framerate:', f_rate)
+    print('ex time:', ex_time, 'framerate:', f_rate)
 
     # cam.set_exposure_time(1000)
     # cam.set_framerate(10)
@@ -358,8 +360,9 @@ def run_camera() -> None:
     # if data is not None:
     #     plt.imshow(data)
     #     plt.show()
+    #cam.close()
 
-    cam.close()
+
 
 
 def frame_ready(frame_num, data):
@@ -392,5 +395,11 @@ def main():
 
 
 if __name__ == "__main__":
+    try:
+        run_camera()
+    except:
+        pass
+        print("error")
     run_camera()
+
     #main()
