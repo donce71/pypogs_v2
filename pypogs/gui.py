@@ -789,7 +789,7 @@ class LiveViewFrame(ttk.Frame):
         if (img is not None) and (img.size != 0):
             if self.auto_max_variable.get():  # Auto set max scaling
                 try:
-                    maxval = int(np.max(img)*0.8)
+                    maxval = int(np.max(img))
                     if cam == FINE_FCL:
                         self.max_entry_fine.delete(0, 'end')
                         self.max_entry_fine.insert(0, str(maxval))

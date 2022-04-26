@@ -67,7 +67,7 @@ class System:
         Tables of Earth's rotation must be downloaded to do coordinate transforms. Calling
         :meth:`update_databases()` will attempt to download these from the internet (if expired).
         To facilitate offline use of pypogs, these will otherwise not be automatically downloaded
-        unless strictly neccessary. If you use pypogs offline do this update every few months to
+        unless strictly necessary. If you use pypogs offline do this update every few months to
         keep the coordinate transforms accurate.
 
     Example:
@@ -125,18 +125,21 @@ class System:
                 sys.coarse_track_thread.spot_tracker.bg_subtract_mode = 'global_median'
                 sys.control_loop_thread.CCL_P = 1
 
-    Set location and alignment:
-        :attr:`alignment` references the :class:`pypogs.Alignment` instance (auto created) used to
-        determine and calibrate the location, alignment, and mount corrections. See the class
-        documentation for how to set location and alignments. To do auto-alignment, use the
-        :meth:`do_auto_star_alignment` method (requires a star camera).
+    Set location and alignment:	
+        :attr:`alignment` references the :class:`pypogs.Alignment` instance (auto created) used to	
+        determine and calibrate the location, alignment, and mount corrections. See the class	
+        documentation for how to set location and alignments. To do auto-alignment, use the	
+        :meth:`do_auto_star_alignment` method (requires a star camera). Plate solving for the auto	
+        alignment is performed via the tetra3 package. You can set a custom instance via	
+        :attr:`tetra3`, otherwise a default instance will be created for you.	
+        
+        If your mount has built in alignment (and/or is physically aligned to the earth) you may	
+        call :meth:`alignment.set_alignment_enu` to set the telescope alignment to East, North, Up	
+        (ENU) coordinates, which will also disable the corrections done in pypogs. ENU is the	
+        traditional astronomical coordinate system for altitude (elevation) and azimuth telescopes,	
+        measured as degrees above the horizon and degrees away from north (towards east)	
+        respectively.	
 
-        If your mount has built in alignment (and/or is physically aligned to the earth) you may
-        call :meth:`alignment.set_alignment_enu` to set the telescope alignment to East, North, Up
-        (ENU) coordinates, which will also disable the corrections done in pypogs. ENU is the
-        traditional astronomical coordinate system for altitide (elevation) and azimuth telescopes,
-        measured as degrees above the horizon and degrees away from north (towards east)
-        respectively.
 
         Example:
             ::
@@ -182,8 +185,8 @@ class System:
     @staticmethod
     def update_databases():
         """Download and update Skyfield and Astropy databases (of earth rotation)."""
-        sf_api.Loader(_system_data_dir).timescale()
-        apy_util.iers.IERS_Auto.open()
+        sf_api.Loader(_system_data_dir).download('finals2000A.all')	
+        apy_util.data.download_file(apy_util.iers.IERS_A_URL, cache='update')
 
     def __init__(self, data_folder=None, debug_folder=None):
         """Create System instance. See class documentation."""
@@ -228,6 +231,8 @@ class System:
         self._mount = None
         self._alignment = Alignment()
         self._target = Target()
+        # tetra3 instance used for plate solving	
+        self._tetra3 = None
         # Variable to stop system thread
         self._stop_loop = True
         self._thread = None
@@ -687,7 +692,7 @@ class System:
         self._logger.debug('Receiver set to: ' + str(self._receiver))
 
     def add_receiver(self, *args, **kwargs):
-        """Create and set a pypogs.Receiver for the system. Arguments passed to contructor.
+        """Create and set a pypogs.Receiver for the system. Arguments passed to constructor.
 
         Args:
             model (str, optional): The model used to determine the correct hardware API. Supported:
@@ -762,8 +767,25 @@ class System:
         """Set the mount to None."""
         self.mount = None
 
+    @property	
+    def tetra3(self):	
+        """tetra3.Tetra3: Get or set the tetra3 instance used for plate solving star images. Will	
+        create an instance with 'default_database' if none is set.	
+        """	
+        if self._tetra3 is None:	
+            self._logger.debug('Loading default database tetra3')	
+            self._tetra3 = Tetra3('default_database')	
+        return self._tetra3	
+    	
+    @tetra3.setter	
+    def tetra3(self, tetra3):	
+        self._logger.debug('Got set tetra3 instance with' + str(tetra3))	
+        assert isinstance(tetra3, Tetra3), 'Must be tetra3 instance'	
+        self._tetra3 = tetra3	
+        delf._logger.debug('Set tetra3 instace')	
+
     def do_auto_star_alignment(self, max_trials=1, rate_control=True):
-        """Do the auto star alginment procedure by taking eight star images across the sky.
+        """Do the auto star aliginment procedure by taking eight star images across the sky.
 
         Will call System.Alignment.set_alignment_from_observations() with the captured images.
 
@@ -781,8 +803,6 @@ class System:
         def run():
             self._logger.info('Starting auto-alignment.')
             try:
-                # TODO: tetra3 should be loaded and configurable from System.
-                t3 = Tetra3('default_database')
                 pos_list = [(40, -135), (60, -135), (60, -45), (40, -45), (40, 45), (60, 45),
                             (60, 135), (40, 135)]
                 alignment_list = []
@@ -813,11 +833,11 @@ class System:
                         img = self.star_camera.get_next_image()
                         timestamp = apy_time.now()
                         # TODO: Test	
-                        fov_estimate = self.star_camera.plate_scale * img.shape[1] / 3600 #taip buvo pries tai kai gustavas sake pakeisti
-                        solve = t3.solve_from_image(img, fov_estimate=fov_estimate, fov_max_error=0.5) # buvo 0.1 tada pasake padaryti i none tada jei all good tada i 0.5
-                        print(solve)
-                        # self._logger.debug('TIME:  ' + timestamp.iso)
-
+                        fov_estimate = self.star_camera.plate_scale * img.shape[1] / 3600	
+                        solve = self.tetra3.solve_from_image(img, fov_estimate=fov_estimate,	
+                                                             fov_max_error=.1)	
+                        self._logger.debug('TIME:  ' + timestamp.iso)
+                        
                         # Save image
                         tiff_write(self.data_folder / (start_time.strftime('%Y-%m-%dT%H%M%S')
                                                        + '_Alt' + str(alt) + '_Azi' + str(azi)
@@ -858,7 +878,6 @@ class System:
         Returns:
             list for method (set_alignment_from_observations(alignment_list))
                 """
-        # TODO: test and finish
         alignment_list = []
         parsed_list = []
         with open(star_align, newline='') as csvfile:
@@ -880,19 +899,17 @@ class System:
                                        int(float(row[6])),
                                        int(float(row[7])))
                         alignment_list.append(parsed_list)
-                        # print("Time was ok, but rest of data wrong or empty)
                 except:
-                    print("Align_read_CSV: Empty raw or file header since no APY time")
+                    pass
         return alignment_list
 
     def get_external_commands_from_csv(self, file_path):
-        """Read data from csv and put in list for alignment
+        """Read data from csv file for OL offsets
         Args:
-            file_path (path, must): csv file with RA,DE,0,0,0,apy_time, az,al. Blank lines - no difference.
+            file_path (path, must): csv file with offset values
         Returns:
-            list for method (set_alignment_from_observations(alignment_list))
+            none
                 """
-        # TODO: test and finish
         parsed_list = []
         with open(file_path, newline='') as csvfile:
             reader = csv_reader(csvfile, delimiter=',')
@@ -901,8 +918,7 @@ class System:
                     parsed_list = (int(float(row[0])), row[1], row[2], row[3], int(float(row[4])), row[5],
                                    int(float(row[6])))
                 except:
-                    # print("csv_read error")
-                    A=1
+                    pass
 
         if parsed_list[0]==1:
             y = list(parsed_list)
@@ -1004,7 +1020,7 @@ class System:
         Args:
             time (astropy.time.Time, optional): The time to calculate target position. If None (the
                  default) the current time is used.
-            block (bool, optional): If True (the default), excecution is blocked until move
+            block (bool, optional): If True (the default), execution is blocked until move
                 finishes.
             rate_control (bool, optional): If True (the default) rate control
                 (see pypogs.Mount) is used.
@@ -1074,19 +1090,14 @@ class System:
         assert self.is_init, 'System not initialized'
         assert not self.is_busy, 'System is busy'
 
-        # TODO: Thread and test this one
-        # TODO: t3 loded and set up from System
-        t3 = Tetra3('default_database')
-        self._logger.info('Starting alignment test, 2x20 positions.')
-        pos_LH = [(53, -16), (71, -23), (80, -9), (44, -114), (56, -135), (50, -100)]
-        pos_RH = [(80, 166), (53, 138), (56, 54), (68, 180), (35, 26), (23, 33), (44, 75)]
 
-        # pos_LH = [(53, -16), (71, -23), (80, -9), (44, -114), (56, -135), (50, -100), (65, -65),
-        #           (26, -72), (23, -30), (59, -37), (35, -177), (47, -142), (20, -86), (38, -79),
-        #           (41, -51), (77, -2), (74, -170), (29, -44), (62, -156), (68, -163)]
-        # pos_RH = [(80, 166), (53, 138), (56, 54), (68, 180), (35, 26), (23, 33), (44, 75),
-        #           (38, 152), (65, 19), (50, 159), (32, 82), (26, 96), (41, 110), (29, 89),
-        #           (20, 103), (77, 5), (74, 47), (59, 117), (47, 173), (71, 124)]
+        self._logger.info('Starting alignment test, 2x20 positions.')
+        pos_LH = [(53, -16), (71, -23), (80, -9), (44, -114), (56, -135), (50, -100), (65, -65),
+                  (26, -72), (23, -30), (59, -37), (35, -177), (47, -142), (20, -86), (38, -79),
+                  (41, -51), (77, -2), (74, -170), (29, -44), (62, -156), (68, -163)]
+        pos_RH = [(80, 166), (53, 138), (56, 54), (68, 180), (35, 26), (23, 33), (44, 75),
+                  (38, 152), (65, 19), (50, 159), (32, 82), (26, 96), (41, 110), (29, 89),
+                  (20, 103), (77, 5), (74, 47), (59, 117), (47, 173), (71, 124)]
 
         test_time = apy_time.now()
         # Create datafile
@@ -1127,11 +1138,9 @@ class System:
                 for trial in range(max_trials):
                     img = self.star_camera.get_next_image()
                     timestamp = apy_time.now()
-                    # TODO: Test				
-                    fov_estimate = self.star_camera.plate_scale * img.shape[1] / 3600 #taip buvo pries tai kai gustavas sake pakeisti
-                    # fov_estimate = 2 * np.rad2deg(
-                    #     np.arctan(np.tan(np.deg2rad(self.star_camera.plate_scale / 3600)) * img.shape[1] / 2)
-                    solve = t3.solve_from_image(img, fov_estimate=fov_estimate, fov_max_error=0.5) # buvo 0.1 tada pasake padaryti i none tada jei all good tada i 0.5
+                    # TODO: Test	
+                    fov_estimate = self.star_camera.plate_scale * img.shape[1] / 3600	
+                    solve = self.tetra3.solve_from_image(img, fov_estimate=fov_estimate, fov_max_error=.1)
                     self._logger.debug('TIME:  ' + timestamp.iso)
                     # Save image
                     tiff_write(self.data_folder / (test_time.strftime('%Y-%m-%dT%H%M%S') + '_Alt'
@@ -1184,7 +1193,7 @@ class Alignment:
     Alignment refers to the different coordinate frames in use to get the telescope to point in the
     correct direction. A direction in some coordinate frame can either be represented as a
     cartesian unit vector or as two angles: altitude and azimuth. In the former case they are
-    appended by _xyz and in the latter by _altaz. There are four coodinate frames to consider,
+    appended by _xyz and in the latter by _altaz. There are four coordinate frames to consider,
     ITRF, ENU, MNT, and COM, see below for descriptions.
 
     The fundamental coordinates used are ITRF_xyz unit vectors. They give direction in an earth

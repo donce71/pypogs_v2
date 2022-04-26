@@ -4,13 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="908c80e6-8589-43a1-bf90-c9fd1b537246" name="Default Changelist" comment="Commit after MV3 event update&#10;Now PhotonFocus camera works with event trigger.&#10;FPS goes up to ~30Hz.&#10;Hardware class updated.">
-      <change afterPath="$PROJECT_DIR$/examples/test_box.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/examples/test_file_save.py" afterDir="false" />
+    <list default="true" id="908c80e6-8589-43a1-bf90-c9fd1b537246" name="Default Changelist" comment="Commit after FlyingLaptop test&#10;External input method added for offsets&#10;This is the last working commit after FL tests.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/phfocus_t_runGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/phfocus_t_runGUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/run_pypogsGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/run_pypogsGUI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/setup2.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/setup2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/test2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/setupCLI_runGUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/setupCLI_runGUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/test_box.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pypogs/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/pypogs/gui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pypogs/hardware.py" beforeDir="false" afterPath="$PROJECT_DIR$/pypogs/hardware.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pypogs/system.py" beforeDir="false" afterPath="$PROJECT_DIR$/pypogs/system.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pypogs/tracking.py" beforeDir="false" afterPath="$PROJECT_DIR$/pypogs/tracking.py" afterDir="false" />
@@ -72,7 +72,28 @@
       <recent name="C:\ESA Telescope\pypogs-master\examples" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.setup2">
+  <component name="RunManager" selected="Python.setupCLI_runGUI">
+    <configuration name="hardware" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="pypogs-master" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/pypogs" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pypogs/hardware.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="run_pypogsGUI" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pypogs-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -115,7 +136,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test_box" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="setupCLI_runGUI" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pypogs-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -127,7 +148,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/test_box.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/setupCLI_runGUI.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -136,7 +157,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test_file_save" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="test_console" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="pypogs-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -148,28 +169,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/test_file_save.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="test_file_save2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="pypogs-master" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/test_file_save2.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/test_console.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -180,18 +180,18 @@
     </configuration>
     <list>
       <item itemvalue="Python.setup2" />
-      <item itemvalue="Python.test_file_save2" />
-      <item itemvalue="Python.test_file_save" />
-      <item itemvalue="Python.test_box" />
       <item itemvalue="Python.run_pypogsGUI" />
+      <item itemvalue="Python.setupCLI_runGUI" />
+      <item itemvalue="Python.test_console" />
+      <item itemvalue="Python.hardware" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.setup2" />
+        <item itemvalue="Python.setupCLI_runGUI" />
         <item itemvalue="Python.run_pypogsGUI" />
-        <item itemvalue="Python.test_box" />
-        <item itemvalue="Python.test_file_save2" />
-        <item itemvalue="Python.test_file_save" />
+        <item itemvalue="Python.hardware" />
+        <item itemvalue="Python.setup2" />
+        <item itemvalue="Python.test_console" />
       </list>
     </recent_temporary>
   </component>
@@ -291,7 +291,14 @@
       <option name="project" value="LOCAL" />
       <updated>1632156431003</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Commit after FlyingLaptop test&#10;External input method added for offsets&#10;This is the last working commit after FL tests.">
+      <created>1639678373309</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1639678373309</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -326,7 +333,8 @@
     <MESSAGE value="Commit after adding PhotonFocus camera&#10;Most of fuctions works&#10;Binning is not implemented&#10;hardware.py was modified" />
     <MESSAGE value="Commit before adding event for Phfocus&#10;Currently Phfocus works in loop mode therefore max FPS is about 5Hz. &#10;Functions updated to work with MV3 camera" />
     <MESSAGE value="Commit after MV3 event update&#10;Now PhotonFocus camera works with event trigger.&#10;FPS goes up to ~30Hz.&#10;Hardware class updated." />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit after MV3 event update&#10;Now PhotonFocus camera works with event trigger.&#10;FPS goes up to ~30Hz.&#10;Hardware class updated." />
+    <MESSAGE value="Commit after FlyingLaptop test&#10;External input method added for offsets&#10;This is the last working commit after FL tests." />
+    <option name="LAST_COMMIT_MESSAGE" value="Commit after FlyingLaptop test&#10;External input method added for offsets&#10;This is the last working commit after FL tests." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

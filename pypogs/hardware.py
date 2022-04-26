@@ -34,7 +34,6 @@ from pathlib import Path
 import logging
 from time import sleep, time as timestamp
 from datetime import datetime, time
-import time
 from threading import Thread, Event
 from struct import pack as pack_data
 import threading
@@ -269,7 +268,7 @@ class Camera:
     @model.setter
     def model(self, model):
         self._log_debug('Setting model to: '+str(model))
-        assert not self.is_init, 'Can not change already intialised device model'
+        assert not self.is_init, 'Can not change already initialised device model'
         model = str(model)
         assert model.lower() in self._supported_models,\
                                                 'Model type not recognised, allowed: '+str(self._supported_models)
@@ -288,7 +287,7 @@ class Camera:
     @identity.setter
     def identity(self, identity):
         self._log_debug('Setting identity to: '+str(identity))
-        assert not self.is_init, 'Can not change already intialised device'
+        assert not self.is_init, 'Can not change already initialised device'
         assert self.model is not None, 'Must define model first'
         identity = str(identity)
         if self.model.lower() == 'ptgrey':
@@ -322,7 +321,6 @@ class Camera:
                 self._identity = identity
                 self._ptgrey_camlist.Clear()
         elif self.model.lower() == 'phfocus':
-            # TODO: DM get ip
             self._identity = identity
         else:
             self._log_warning('Forbidden model string defined.')
@@ -433,25 +431,19 @@ class Camera:
             cti = str(Path(cti).expanduser())
             h.add_file(cti)
             h.update()
-            # len(h.device_info_list)
+            # len(h.device_info_list) #For debug purpose
             # h.device_info_list[0]
             ia = h.create_image_acquirer(0)
             self._phfocus_dev = h
             self._phfocus_ia = ia
 
-            #print('Nodes:', dir(self._phfocus_ia.remote_device.node_map))    # get all available propertires of genicam
+            #print('Nodes:', dir(self._phfocus_ia.remote_device.node_map))    # get all available properties of genicam
             # BASIC SETUP
-            # ia.remote_device.node_map.Width.value = 1024  # max: 1312
-            # ia.remote_device.node_map.Height.value = 1024  # max: 1082
-            # ia.remote_device.node_map.PixelFormat.value = 'Mono12'
             self._log_debug('Setting pixel format to mono12')
             self._log_debug('Setting acquisition mode to continuous')
             self._phfocus_ia.remote_device.node_map.PixelFormat.value = 'Mono12'
             self._phfocus_ia.remote_device.node_map.AcquisitionMode.value = 'Continuous'
             self._phfocus_ia.remote_device.node_map.EnAcquisitionFrameRate.value = 'True'
-            # time.sleep(3)
-            # self._phfocus_ia.remote_device.AcquisitionFrameRateMode.value = 'ExposureControlled'
-            # self._phfocus_ia.remote_device.AcquisitionStart.value = 'True'
 
             from harvesters.core import Callback
             class CallbackOnNewBuffer(Callback):
@@ -465,14 +457,12 @@ class Camera:
                     with self.parent._phfocus_ia.fetch_buffer() as buffer:
                         # Work with the fetched buffer.
                         """Read out the image and a timestamp, reshape to array, pass to cam object"""
-                        # print('Debug print: Counter', self._imgs_since_start, data.shape, 'mean:', np.mean(data))
                         self.parent._log_debug('Image event! Unpack ')
                         self.parent._image_timestamp = datetime.utcnow()
                         try:
                             component = buffer.payload.components[0]
                             data = component.data.reshape(component.height, component.width)
                             img = data.copy()
-                            # img[300:310, 300:310] = 4000    #for debug fake spot
                             if self.parent._flipX:
                                 img = np.fliplr(img)
                             if self.parent._flipY:
@@ -497,7 +487,7 @@ class Camera:
                         self.parent._log_debug('Image event handler finished.')
                         self.parent._phfocus_is_running = True
 
-            # add method to the callback method for camera NEW_BUFFER event
+            # Add method to the callback method for camera NEW_BUFFER event. PhotonFocus
             on_new_buffer = CallbackOnNewBuffer(self)
             ia.add_callback(
                 ia.Events.NEW_BUFFER_AVAILABLE,
@@ -592,10 +582,10 @@ class Camera:
         self._log_debug('Get flip-Y called')
         assert self.is_init, 'Camera must be initialised'
         if self.model.lower() == 'ptgrey':
-            self._log_debug('Using PtGrey camera. Will flip the received image array ourselves: ' + str(self._flipX))
+            self._log_debug('Using PtGrey camera. Will flip the received image array ourselves: ' + str(self._flipY))
             return self._flipY
         elif self.model.lower() == 'phfocus':
-            self._log_debug('Using Phfocus camera. Will flip the received image array ourselves: ' + str(self._flipX))
+            self._log_debug('Using Phfocus camera. Will flip the received image array ourselves: ' + str(self._flipY))
             return self._flipY
         else:
             self._log_warning('Forbidden model string defined.')
@@ -1047,7 +1037,7 @@ class Camera:
                 self._log_debug('Returning '+str(val))
                 return val
         elif self.model.lower() == 'phfocus':
-        #TODO: find values of min max exposure in ms
+        #TODO: get exposure limits from camera
             min_ex = 0.01
             max_ex = 671
             return min_ex, max_ex
@@ -1076,7 +1066,7 @@ class Camera:
         elif self.model.lower() == 'phfocus':
             factor = 1000
             if self._phfocus_ia:
-                return int(self._phfocus_ia.remote_device.node_map.ExposureTime.value / factor) #out need to be ms
+                return int(self._phfocus_ia.remote_device.node_map.ExposureTime.value / factor) #out is in ms
             return 0.0
         else:
             self._log_warning('Forbidden model string defined.')
@@ -1110,7 +1100,7 @@ class Camera:
                     else:
                         raise #Rethrows error
         elif self.model.lower() == 'phfocus':
-            factor = 1000
+            factor = 1000   #convert to ms
             if self._phfocus_ia:
                 self._phfocus_ia.remote_device.node_map.ExposureTime.value = exposure_ms * factor
             self._log_debug('Setting exposure time phfocus to (ms): ' + str(exposure_ms))
@@ -1378,9 +1368,9 @@ class Camera:
         The method should have the signature (image, timestamp, \*args, \*\*kwargs) where:
 
         - image (numpy.ndarray): The image data as a 2D numpy array.
-        - timestamp (datetime.datetime): UTC timestamp when the image event occured (i.e. when the capture
+        - timestamp (datetime.datetime): UTC timestamp when the image event occurred (i.e. when the capture
           finished).
-        - \*args, \*\*kwargs should be allowed for forward compatability.
+        - \*args, \*\*kwargs should be allowed for forward compatibility.
 
         The callback should *not* be used for computations, make sure the method returns as fast as possible.
 
@@ -1584,7 +1574,7 @@ class Mount:
 
     Note:
         The Mount class allows two modes of control for moving to positions. The default is rate_control=True, where
-        this class will continously send rate commands until the desired position is reached. It is possible to use the
+        this class will continuously send rate commands until the desired position is reached. It is possible to use the
         internal motion controller in the mount by passing rate_control=False. However, it is slow and implements
         backlash compensation. In our testing the accuracy difference is negligible so the default is recommended.
     """
@@ -1720,7 +1710,7 @@ class Mount:
     @model.setter
     def model(self, model):
         self._logger.debug('Setting model to: '+str(model))
-        assert not self.is_init, 'Can not change already intialised device model'
+        assert not self.is_init, 'Can not change already initialised device model'
         model = str(model)
         assert model.lower() in self._supported_models,\
                                                 'Model type not recognised, allowed: '+str(self._supported_models)
@@ -1743,7 +1733,7 @@ class Mount:
     @identity.setter
     def identity(self, identity):
         self._logger.debug('Setting identity to: '+str(identity))
-        assert not self.is_init, 'Can not change already intialised device'
+        assert not self.is_init, 'Can not change already initialised device'
         assert isinstance(identity, (str, int)), 'Identity must be a string or an int'
         assert self.model is not None, 'Must define model first'
         if self.model == 'celestron':
@@ -1959,7 +1949,7 @@ class Mount:
             azi (float): Azimuth angle (degrees).
             block (bool, optional): If True (the default) the call to this method will block until the move is finished.
             rate_control (bool, optional): If True (the default) the rate of the mount will be controlled until position
-                is reached, if False the position command will be sent to the mount for excecution.
+                is reached, if False the position command will be sent to the mount for execution.
         """
         assert self.is_init, 'Must be initialised'
         assert self._alt_limit[0] is None or alt >= self._alt_limit[0], 'Altitude outside range!'
@@ -2068,7 +2058,7 @@ class Mount:
         Args:
             block (bool, optional): If True (the default) the call to this method will block until the move is finished.
             rate_control (bool, optional): If True (the default) the rate of the mount will be controlled until position
-                is reached, if False the position command will be sent to the mount for excecution.
+                is reached, if False the position command will be sent to the mount for execution.
         """
         self.move_to_alt_az(*self.home_alt_az, block=block, rate_control=rate_control)
 
@@ -2383,7 +2373,7 @@ class Receiver:
     @model.setter
     def model(self, model):
         self._logger.debug('Setting model to: '+str(model))
-        assert not self.is_init, 'Can not change already intialised device model'
+        assert not self.is_init, 'Can not change already initialised device model'
         assert isinstance(model, str), 'Model type must be a string'
         assert model.lower() in self._supported_models,\
                                                 'Model type not recognised, allowed: '+str(self._supported_models)
@@ -2403,11 +2393,11 @@ class Receiver:
     @identity.setter
     def identity(self, identity):
         self._logger.debug('Setting identity to: '+str(identity))
-        assert not self.is_init, 'Can not change already intialised device'
+        assert not self.is_init, 'Can not change already initialised device'
         assert isinstance(identity, str), 'Identity must be a string'
         assert self.model is not None, 'Must define model first'
         if self.model.lower() == 'ni_daq':
-            self._logger.debug('Using NI DAQ, checking vailidity by opening a task')
+            self._logger.debug('Using NI DAQ, checking validity by opening a task')
             import nidaqmx as ni
             t = ni.Task()
             try:

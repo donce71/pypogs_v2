@@ -16,7 +16,7 @@ try:
     #sys.add_coarse_camera(model='ptgrey', identity='18285284')
     sys.add_coarse_camera(model='ptgrey', identity='18285254')
     sys.add_star_camera_from_coarse()
-    sys.add_fine_camera(model='phfocus', identity='autoIP')
+    # sys.add_fine_camera(model='phfocus', identity='autoIP')
     sys.add_mount(model='Celestron', identity=0)
     # sys.alignment.set_location_lat_lon(lat=52.1253, lon=4.4956, height=44) #Zouterwoede
     sys.alignment.set_location_lat_lon(lat=52.2155, lon=4.4194, height=45) #ESTEC football field (0m MSL)

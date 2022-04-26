@@ -78,7 +78,7 @@ class ControlLoopThread:
           following:
 
               - *parent*.coarse_track_thread exists and has a track
-              - aformentioned track standard deviation is below CCL_transition_th (default 100
+              - aforementioned track standard deviation is below CCL_transition_th (default 100
                 arcsec)
 
         - FCL: Fine closed-loop control. The measured position from the fine camera, returned by
@@ -88,7 +88,7 @@ class ControlLoopThread:
           following:
 
               - *parent*.fine_track_thread exists and has a track
-              - aformentioned track standard deviation is below FCL_transition_th (default 30
+              - aforementioned track standard deviation is below FCL_transition_th (default 30
                 arcsec)
 
         - CTFSP: Coarse-to-fine spiral acquisition. Only available if CTFSP_enable is set to True.
@@ -119,7 +119,7 @@ class ControlLoopThread:
     to True or False, OL mode may not be disabled.
 
     Note:
-        Integral windup protection is acheived by two means:
+        Integral windup protection is achieved by two means:
 
         1. The integral term is reset if the control signal desired is greater than the speed limit
            (disable by reset_integral_if_saturated=False).
@@ -214,7 +214,7 @@ class ControlLoopThread:
         self._FCL_Ki = 1/10  # Integral gain (1/integral time [s])
         self._FCL_speed_limit = .05  # deg/sec
         self._FCL_transition_th = 30.0  # Fine sd required to move to fine tracking (arcsec)
-        # Spiralling aquisition settings
+        # Spiralling acquisition settings
         # Coarse to Fine spiral
         self._CTFSP_enable = False
         self._CTFSP_spacing = 100.0  # Spacing between arms (arcsec)
@@ -627,7 +627,7 @@ class ControlLoopThread:
 
     @property
     def CTFSP_auto_update_CCL_goal_th(self):
-        """float: Get or set the requred FCL RMSE to auto update the CCL goal in arcseconds."""
+        """float: Get or set the required FCL RMSE to auto update the CCL goal in arcseconds."""
         return self._CTFSP_auto_update_CCL_goal_th
 
     @CTFSP_auto_update_CCL_goal_th.setter
@@ -805,7 +805,7 @@ class ControlLoopThread:
                 step = .2
                 target_itrf_xyz = self._parent. \
                     get_itrf_direction_of_target(loop_utctime + [0, step]*apy_unit.s)
-                # Convert all neccessary coordinate frames
+                # Convert all necessary coordinate frames
                 target_mnt_altaz = self._parent.alignment. \
                     get_mnt_altaz_from_itrf_xyz(target_itrf_xyz)
                 target_mnt_rate = (((target_mnt_altaz[:, 1]
@@ -877,17 +877,6 @@ class ControlLoopThread:
                                 if self._OL_Ki > 0 and self._CCL_Ki > 0:
                                     err_integral *= (self._OL_Kp * self._OL_Ki
                                                      / self._CCL_Kp / self._CCL_Ki)
-                    elif self._FCL_enable and ft_exists:
-                        self._log_debug('Evaluating FCL requirements')
-                        if ft_has_track and ft_track_sd is not None:
-                            self._log_debug('FCL track with SD: ' + str(ft_track_sd))
-                            if ft_track_sd < self._FCL_transition_th:
-                                self._log_info('Switching CCL > FCL.')
-                                mode = 'FCL'
-                                # Rescale integral term
-                                if self._CCL_Ki > 0 and self._FCL_Ki > 0:
-                                    err_integral *= (self._CCL_Kp * self._CCL_Ki
-                                                     / self._FCL_Kp / self._FCL_Ki)
                 elif mode == 'CCL':
                     self._log_debug('Mode switching started, currently in CCL')
                     if not self._CCL_enable or not ct_exists or not ct_has_track:
@@ -1552,10 +1541,6 @@ class TrackingThread:
                 if not self._process_image.wait(timeout=3):
                     self._log_warning('Timeout waiting for image in loop')
                 image = self._image_data.copy()
-                #DM. changes
-                # image = image*0
-                # image[300:310,300:310] = 100
-
                 loop_timestamp = precision_timestamp() - start_timestamp
                 loop_datetime_utc = self._image_timestamp
                 self._log_debug('New loop. Timestamp: '+str(loop_timestamp))
@@ -1563,7 +1548,7 @@ class TrackingThread:
                 old_timestamp = loop_timestamp
                 self._actual_freq = 1/dt
 
-                # # Feedforward
+                # Feedforward
                 ff_step_abs = np.sqrt(np.sum(np.array(self._feedforward_rate)**2))
                 self._log_debug('Feedforward step magnitude: ' + str(ff_step_abs))
                 if ff_step_abs > self._feedforward_threshold:
@@ -1577,7 +1562,7 @@ class TrackingThread:
                 offs_step = np.array(self._goal_offset_rate) * dt
                 self._log_debug('Adding step to goal offset: (x,y): ' + str(offs_step))
                 self.spot_tracker.goal_offset_x_y += offs_step
-                ## Update spottracker from image
+                # Update spottracker from image
                 try:
                     img_used = self.spot_tracker.update_from_image(image, self._camera.plate_scale)
                 except BaseException:
@@ -1598,7 +1583,7 @@ class TrackingThread:
                         self._log_debug('Saving image to disk as name: ' + str(imgname))
                         tiff_write(self._image_folder / imgname, image)
                         img_saved = True
-                ## Get state
+                # Get state
                 has_track = self.spot_tracker.has_track
                 rmse = self.spot_tracker.rms_error
                 (x, y) = self.spot_tracker.track_x_y

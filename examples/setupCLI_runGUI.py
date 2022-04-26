@@ -13,9 +13,9 @@ sys = pypogs.System()
 try:
 
     # LOAD
-    sys.add_coarse_camera(model='ptgrey', identity='18285284')
+    sys.add_coarse_camera(model='ptgrey', identity='18285254')
     sys.add_star_camera_from_coarse()
-    sys.add_fine_camera(model='ptgrey', identity='18285254')
+    sys.add_fine_camera(model='ptgrey', identity='18285284')
     sys.add_mount(model='Celestron', identity=0)
     # sys.alignment.set_location_lat_lon(lat=52.1253, lon=4.4956, height=44) #Zouterwoede
     sys.alignment.set_location_lat_lon(lat=52.2155, lon=4.4194, height=45) #ESTEC football field (0m MSL)
@@ -26,8 +26,8 @@ try:
         alignment_list = sys.get_alignment_list_from_csv(csv_file)
         sys.alignment.set_alignment_from_observations(alignment_list)
 
-
-    sys.target.set_target_from_ra_dec('025643', '892100') #Polaris
+    sys.target.set_target_from_ra_dec('175706', '512848')  # Etamin
+    # sys.target.set_target_from_ra_dec('025643', '892100') #Polaris
     # sys.target.set_target_from_ra_dec('024037', '151140') # Uranas
     # sys.target.set_target_from_ra_dec('221551', '-114245') # Jupiter
     # sys.target.set_target_from_ra_dec('074452', '223746') # Mars
